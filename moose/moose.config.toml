@@ -44,6 +44,11 @@ postgresql_version = "13"
 [supported_old_versions]
 
 [features]
+olap = true
 streaming_engine = true
 workflows = true
 data_model_v2 = true
+ddl_plan = true
+
+[authentication]
+admin_api_key = "803704d98e45b86c01f93ce3ba7afdda940d32e4"
