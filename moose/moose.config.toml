@@ -47,6 +47,3 @@ postgresql_version = "13"
 streaming_engine = true
 workflows = true
 data_model_v2 = true
-
-[authentication]
-admin_api_key = ccfa9fd159cf3a3af7b723f02c1f6e4fc189ef67
