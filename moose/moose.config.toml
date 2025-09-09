@@ -19,6 +19,7 @@ native_port = 9000
 host = "localhost"
 port = 4000
 management_port = 5001
+proxy_port = 4001
 
 [redis_config]
 url = "redis://127.0.0.1:6379"

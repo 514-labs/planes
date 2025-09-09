@@ -1,8 +1,8 @@
-import { Key, IngestPipeline } from "@514labs/moose-lib";
+import { Key } from "@514labs/moose-lib";
 
 export interface AircraftTrackingData {
   // Aircraft identifiers
-  hex: string; // using hex as the key since it appears to be a unique aircraft identifier
+  hex: Key<string>; // using hex as the key since it appears to be a unique aircraft identifier
   transponder_type: string;
   flight: string;
   r: string;
@@ -67,17 +67,3 @@ export interface AircraftTrackingProcessed extends AircraftTrackingData {
   lnav: boolean;
   tcas: boolean;
 }
-
-export const AircraftTrackingDataPipeline =
-  new IngestPipeline<AircraftTrackingData>("AircraftTrackingData", {
-    table: false,
-    stream: true,
-    ingest: true,
-  });
-
-export const AircraftTrackingProcessedPipeline =
-  new IngestPipeline<AircraftTrackingProcessed>("AircraftTrackingProcessed", {
-    table: true,
-    stream: true,
-    ingest: false,
-  });

@@ -1,8 +1,6 @@
 import {
   AircraftTrackingData,
-  AircraftTrackingDataPipeline,
-  AircraftTrackingProcessed,
-  AircraftTrackingProcessedPipeline,
+  AircraftTrackingProcessed
 } from "../datamodels/models";
 
 function calculateZOrder(lat: number, lon: number): number {
@@ -39,7 +37,7 @@ function parseNavModes(navModes?: string[]): {
   };
 }
 
-function transformAircraft(
+export function transformAircraft(
   record: AircraftTrackingData,
 ): AircraftTrackingProcessed {
   const zorderCoordinate = calculateZOrder(record.lat, record.lon);
@@ -57,8 +55,3 @@ function transformAircraft(
     timestamp: new Date(record.timestamp),
   };
 }
-
-AircraftTrackingDataPipeline!.stream!.addTransform(
-  AircraftTrackingProcessedPipeline!.stream!,
-  transformAircraft,
-);

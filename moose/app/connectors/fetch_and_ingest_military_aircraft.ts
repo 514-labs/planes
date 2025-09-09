@@ -33,7 +33,7 @@ interface FetchTaskOutput {
 function mapToAircraftTrackingData(
   aircraft: AircraftTrackingData,
   timestamp: Date,
-): any {
+): AircraftTrackingData {
   // Handle alt_baro which can be "ground" or a number
   let alt_baro = 0;
   let alt_baro_is_ground = false;
@@ -142,11 +142,11 @@ export const fetchAndIngestMilitaryAircraft = new Task<
 
       for (const aircraft of data.ac) {
         try {
-          const mappedData = mapToAircraftTrackingData(aircraft, timestamp);
+          const mappedData: AircraftTrackingData = mapToAircraftTrackingData(aircraft, timestamp);
 
           // Send individual aircraft data to Moose ingestion endpoint
           const ingestResponse = await fetch(
-            "http://localhost:4000/ingest/AircraftTrackingData",
+            "http://localhost:4000/ingest/AircraftTrackingDataIngestAPI",
             {
               method: "POST",
               headers: {
@@ -195,7 +195,7 @@ export const militaryAircraftTrackingWorkflow = new Workflow(
     startingTask: fetchAndIngestMilitaryAircraft,
     retries: 3,
     timeout: "1h",
-    schedule: "@every 5s",
+    schedule: "@every 30s",
   },
 );
 
