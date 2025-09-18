@@ -5,3 +5,4 @@ coverage
 .ts-node
 
 .cursor
+.vscode

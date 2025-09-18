@@ -1,29 +1,3 @@
 export * from "./connectors/fetch_and_ingest_military_aircraft";
 export * from './apis/aircraftSpeedAltitudeByType';
-
-import { OlapTable, Stream, IngestApi } from "@514labs/moose-lib";
-import { AircraftTrackingData, AircraftTrackingProcessed } from "./datamodels/models"
-import { transformAircraft } from "./functions/process_aircraft";
-
-//Raw data ingest pipeline
-export const AircraftTrackingData_Table = new OlapTable<AircraftTrackingData>("AircraftTrackingDataTable");
-
-export const AircraftTrackingData_Stream = new Stream<AircraftTrackingData>("AircraftTrackingDataStream", {
-  destination:AircraftTrackingData_Table
-});
-
-export const AircraftTrackingData_IngestAPI = new IngestApi<AircraftTrackingData>("AircraftTrackingDataIngestAPI", {
-  destination:AircraftTrackingData_Stream
-});
-
-//Derivative data model pipeline
-export const AircraftTrackingProcessed_Table = new OlapTable<AircraftTrackingProcessed>("AircraftTrackingProcessedTable");
-
-export const AircraftTrackingProcessed_Stream = new Stream<AircraftTrackingProcessed>("AircraftTrackingProcessedStream", {
-  destination:AircraftTrackingProcessed_Table
-});
-
-AircraftTrackingData_Stream!.addTransform(
-  AircraftTrackingProcessed_Stream!,
-  transformAircraft,
-);
+export * from './ingest/ingest';
