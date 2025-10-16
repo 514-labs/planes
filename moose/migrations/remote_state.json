@@ -849,6 +849,71 @@
         "description": null
       },
       "life_cycle": "FULLY_MANAGED"
+    },
+    "AircraftTrackingDataDLQ": {
+      "version": null,
+      "name": "AircraftTrackingDataDLQ",
+      "retention_period": {
+        "secs": 604800,
+        "nanos": 0
+      },
+      "partition_count": 1,
+      "max_message_bytes": 1048576,
+      "columns": [
+        {
+          "name": "originalRecord",
+          "data_type": "Json",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "errorMessage",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "errorType",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "failedAt",
+          "data_type": "DateTime",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "source",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        }
+      ],
+      "source_primitive": {
+        "name": "AircraftTrackingDataDLQ",
+        "primitive_type": "DataModel"
+      },
+      "metadata": {
+        "description": null
+      },
+      "life_cycle": "FULLY_MANAGED"
     }
   },
   "api_endpoints": {
@@ -858,7 +923,8 @@
         "INGRESS": {
           "target_topic_id": "AircraftTrackingDataStream",
           "data_model": null,
-          "dead_letter_queue": null
+          "dead_letter_queue": "AircraftTrackingDataDLQ",
+          "schema": {}
         }
       },
       "path": "ingest/AircraftTrackingDataIngestAPI",
@@ -1367,7 +1433,7 @@
         "zorderCoordinate",
         "hex"
       ],
-      "engine": "SharedMergeTree",
+      "engine": "MergeTree",
       "version": null,
       "source_primitive": {
         "name": "AircraftTrackingProcessedTable",
@@ -1761,7 +1827,7 @@
       "order_by": [
         "hex"
       ],
-      "engine": "SharedMergeTree",
+      "engine": "MergeTree",
       "version": null,
       "source_primitive": {
         "name": "AircraftTrackingDataTable",

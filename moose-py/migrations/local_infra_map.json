@@ -1,5 +1,523 @@
 {
   "topics": {
+    "AircraftTrackingDataDLQ": {
+      "version": null,
+      "name": "AircraftTrackingDataDLQ",
+      "retention_period": {
+        "secs": 604800,
+        "nanos": 0
+      },
+      "partition_count": 1,
+      "max_message_bytes": 1048576,
+      "columns": [
+        {
+          "name": "original_record",
+          "data_type": "Json",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "error_message",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "error_type",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "failed_at",
+          "data_type": "DateTime",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "source",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": [
+            [
+              "LowCardinality",
+              true
+            ]
+          ]
+        }
+      ],
+      "source_primitive": {
+        "name": "AircraftTrackingDataDLQ",
+        "primitive_type": "DataModel"
+      },
+      "metadata": null,
+      "life_cycle": "FULLY_MANAGED"
+    },
+    "AircraftTrackingProcessedStream": {
+      "version": null,
+      "name": "AircraftTrackingProcessedStream",
+      "retention_period": {
+        "secs": 604800,
+        "nanos": 0
+      },
+      "partition_count": 1,
+      "max_message_bytes": 1048576,
+      "columns": [
+        {
+          "name": "hex",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": true,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "transponder_type",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "flight",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "r",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "aircraft_type",
+          "data_type": "String",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "dbFlags",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lat",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lon",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_baro",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_baro_is_ground",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_geom",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "gs",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "track",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "baro_rate",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "geom_rate",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "squawk",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "emergency",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "category",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_qnh",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_altitude_mcp",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_heading",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_modes",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nic",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "rc",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "seen_pos",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "version",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nic_baro",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nac_p",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nac_v",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sil",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sil_type",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "gva",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sda",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alert",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "spi",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "mlat",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "tisb",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "messages",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "seen",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "rssi",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "timestamp",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "zorderCoordinate",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": true,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "approach",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "autopilot",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "althold",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lnav",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "tcas",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        }
+      ],
+      "source_primitive": {
+        "name": "AircraftTrackingProcessedStream",
+        "primitive_type": "DataModel"
+      },
+      "metadata": null,
+      "life_cycle": "FULLY_MANAGED"
+    },
     "AircraftTrackingDataStream": {
       "version": null,
       "name": "AircraftTrackingDataStream",
@@ -57,7 +575,7 @@
         },
         {
           "name": "dbFlags",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -213,7 +731,7 @@
         },
         {
           "name": "nic",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -222,7 +740,7 @@
         },
         {
           "name": "rc",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -231,7 +749,7 @@
         },
         {
           "name": "seen_pos",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -240,7 +758,7 @@
         },
         {
           "name": "version",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -249,7 +767,7 @@
         },
         {
           "name": "nic_baro",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -258,7 +776,7 @@
         },
         {
           "name": "nac_p",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -267,7 +785,7 @@
         },
         {
           "name": "nac_v",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -276,7 +794,7 @@
         },
         {
           "name": "sil",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -294,7 +812,7 @@
         },
         {
           "name": "gva",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -303,7 +821,7 @@
         },
         {
           "name": "sda",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -312,7 +830,7 @@
         },
         {
           "name": "alert",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -321,7 +839,7 @@
         },
         {
           "name": "spi",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -354,7 +872,7 @@
         },
         {
           "name": "messages",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -363,7 +881,7 @@
         },
         {
           "name": "seen",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -381,7 +899,7 @@
         },
         {
           "name": "timestamp",
-          "data_type": "DateTime",
+          "data_type": "String",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -393,526 +911,7 @@
         "name": "AircraftTrackingDataStream",
         "primitive_type": "DataModel"
       },
-      "metadata": {
-        "description": null
-      },
-      "life_cycle": "FULLY_MANAGED"
-    },
-    "AircraftTrackingProcessedStream": {
-      "version": null,
-      "name": "AircraftTrackingProcessedStream",
-      "retention_period": {
-        "secs": 604800,
-        "nanos": 0
-      },
-      "partition_count": 1,
-      "max_message_bytes": 1048576,
-      "columns": [
-        {
-          "name": "zorderCoordinate",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": true,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "approach",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "autopilot",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "althold",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lnav",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "tcas",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "hex",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": true,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "transponder_type",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "flight",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "r",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "aircraft_type",
-          "data_type": "String",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "dbFlags",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lat",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lon",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_baro",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_baro_is_ground",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_geom",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "gs",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "track",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "baro_rate",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "geom_rate",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "squawk",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "emergency",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "category",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_qnh",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_altitude_mcp",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_heading",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_modes",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nic",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "rc",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "seen_pos",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "version",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nic_baro",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nac_p",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nac_v",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sil",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sil_type",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "gva",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sda",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alert",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "spi",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "mlat",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "tisb",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "messages",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "seen",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "rssi",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "timestamp",
-          "data_type": "DateTime",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        }
-      ],
-      "source_primitive": {
-        "name": "AircraftTrackingProcessedStream",
-        "primitive_type": "DataModel"
-      },
-      "metadata": {
-        "description": null
-      },
-      "life_cycle": "FULLY_MANAGED"
-    },
-    "AircraftTrackingDataDLQ": {
-      "version": null,
-      "name": "AircraftTrackingDataDLQ",
-      "retention_period": {
-        "secs": 604800,
-        "nanos": 0
-      },
-      "partition_count": 1,
-      "max_message_bytes": 1048576,
-      "columns": [
-        {
-          "name": "originalRecord",
-          "data_type": "Json",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "errorMessage",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "errorType",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "failedAt",
-          "data_type": "DateTime",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "source",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        }
-      ],
-      "source_primitive": {
-        "name": "AircraftTrackingDataDLQ",
-        "primitive_type": "DataModel"
-      },
-      "metadata": {
-        "description": null
-      },
+      "metadata": null,
       "life_cycle": "FULLY_MANAGED"
     }
   },
@@ -971,7 +970,7 @@
               },
               {
                 "name": "dbFlags",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1127,7 +1126,7 @@
               },
               {
                 "name": "nic",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1136,7 +1135,7 @@
               },
               {
                 "name": "rc",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1145,7 +1144,7 @@
               },
               {
                 "name": "seen_pos",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1154,7 +1153,7 @@
               },
               {
                 "name": "version",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1163,7 +1162,7 @@
               },
               {
                 "name": "nic_baro",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1172,7 +1171,7 @@
               },
               {
                 "name": "nac_p",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1181,7 +1180,7 @@
               },
               {
                 "name": "nac_v",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1190,7 +1189,7 @@
               },
               {
                 "name": "sil",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1208,7 +1207,7 @@
               },
               {
                 "name": "gva",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1217,7 +1216,7 @@
               },
               {
                 "name": "sda",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1226,7 +1225,7 @@
               },
               {
                 "name": "alert",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1235,7 +1234,7 @@
               },
               {
                 "name": "spi",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1268,7 +1267,7 @@
               },
               {
                 "name": "messages",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1277,7 +1276,7 @@
               },
               {
                 "name": "seen",
-                "data_type": "Float64",
+                "data_type": "Int64",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1295,7 +1294,7 @@
               },
               {
                 "name": "timestamp",
-                "data_type": "DateTime",
+                "data_type": "String",
                 "required": true,
                 "unique": false,
                 "primary_key": false,
@@ -1315,196 +1314,278 @@
               "parallelism": 1,
               "metadata": null
             },
-            "abs_file_path": "/Users/chris/Dev/planes/moose/app/index.ts",
+            "abs_file_path": "/Users/chris/Dev/planes/moose-py/app/main.py",
             "version": "0.0"
           },
           "dead_letter_queue": "AircraftTrackingDataDLQ",
           "schema": {
-            "version": "3.1",
-            "components": {
-              "schemas": {
-                "AircraftTrackingData": {
-                  "type": "object",
-                  "properties": {
-                    "hex": {
-                      "type": "string"
-                    },
-                    "transponder_type": {
-                      "type": "string"
-                    },
-                    "flight": {
-                      "type": "string"
-                    },
-                    "r": {
-                      "type": "string"
-                    },
-                    "aircraft_type": {
-                      "type": "string"
-                    },
-                    "dbFlags": {
-                      "type": "number"
-                    },
-                    "lat": {
-                      "type": "number"
-                    },
-                    "lon": {
-                      "type": "number"
-                    },
-                    "alt_baro": {
-                      "type": "number"
-                    },
-                    "alt_baro_is_ground": {
-                      "type": "boolean"
-                    },
-                    "alt_geom": {
-                      "type": "number"
-                    },
-                    "gs": {
-                      "type": "number"
-                    },
-                    "track": {
-                      "type": "number"
-                    },
-                    "baro_rate": {
-                      "type": "number"
-                    },
-                    "geom_rate": {
-                      "type": "number"
-                    },
-                    "squawk": {
-                      "type": "string"
-                    },
-                    "emergency": {
-                      "type": "string"
-                    },
-                    "category": {
-                      "type": "string"
-                    },
-                    "nav_qnh": {
-                      "type": "number"
-                    },
-                    "nav_altitude_mcp": {
-                      "type": "number"
-                    },
-                    "nav_heading": {
-                      "type": "number"
-                    },
-                    "nav_modes": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "nic": {
-                      "type": "number"
-                    },
-                    "rc": {
-                      "type": "number"
-                    },
-                    "seen_pos": {
-                      "type": "number"
-                    },
-                    "version": {
-                      "type": "number"
-                    },
-                    "nic_baro": {
-                      "type": "number"
-                    },
-                    "nac_p": {
-                      "type": "number"
-                    },
-                    "nac_v": {
-                      "type": "number"
-                    },
-                    "sil": {
-                      "type": "number"
-                    },
-                    "sil_type": {
-                      "type": "string"
-                    },
-                    "gva": {
-                      "type": "number"
-                    },
-                    "sda": {
-                      "type": "number"
-                    },
-                    "alert": {
-                      "type": "number"
-                    },
-                    "spi": {
-                      "type": "number"
-                    },
-                    "mlat": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "tisb": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "messages": {
-                      "type": "number"
-                    },
-                    "seen": {
-                      "type": "number"
-                    },
-                    "rssi": {
-                      "type": "number"
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  },
-                  "required": [
-                    "hex",
-                    "transponder_type",
-                    "flight",
-                    "r",
-                    "dbFlags",
-                    "lat",
-                    "lon",
-                    "alt_baro",
-                    "alt_baro_is_ground",
-                    "alt_geom",
-                    "gs",
-                    "track",
-                    "baro_rate",
-                    "squawk",
-                    "emergency",
-                    "category",
-                    "nic",
-                    "rc",
-                    "seen_pos",
-                    "version",
-                    "nic_baro",
-                    "nac_p",
-                    "nac_v",
-                    "sil",
-                    "sil_type",
-                    "gva",
-                    "sda",
-                    "alert",
-                    "spi",
-                    "mlat",
-                    "tisb",
-                    "messages",
-                    "seen",
-                    "rssi",
-                    "timestamp"
-                  ]
-                }
+            "$defs": {
+              "Key_str_": {
+                "type": "string"
               }
             },
-            "schemas": [
-              {
-                "$ref": "#/components/schemas/AircraftTrackingData"
+            "description": "Raw aircraft tracking data from ADS-B sources",
+            "properties": {
+              "hex": {
+                "$ref": "#/components/schemas/Key_str_"
+              },
+              "transponder_type": {
+                "title": "Transponder Type",
+                "type": "string"
+              },
+              "flight": {
+                "title": "Flight",
+                "type": "string"
+              },
+              "r": {
+                "title": "R",
+                "type": "string"
+              },
+              "aircraft_type": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Aircraft Type"
+              },
+              "dbFlags": {
+                "title": "Dbflags",
+                "type": "integer"
+              },
+              "lat": {
+                "title": "Lat",
+                "type": "number"
+              },
+              "lon": {
+                "title": "Lon",
+                "type": "number"
+              },
+              "alt_baro": {
+                "title": "Alt Baro",
+                "type": "number"
+              },
+              "alt_baro_is_ground": {
+                "title": "Alt Baro Is Ground",
+                "type": "boolean"
+              },
+              "alt_geom": {
+                "title": "Alt Geom",
+                "type": "number"
+              },
+              "gs": {
+                "title": "Gs",
+                "type": "number"
+              },
+              "track": {
+                "title": "Track",
+                "type": "number"
+              },
+              "baro_rate": {
+                "title": "Baro Rate",
+                "type": "number"
+              },
+              "geom_rate": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Geom Rate"
+              },
+              "squawk": {
+                "title": "Squawk",
+                "type": "string"
+              },
+              "emergency": {
+                "title": "Emergency",
+                "type": "string"
+              },
+              "category": {
+                "title": "Category",
+                "type": "string"
+              },
+              "nav_qnh": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Nav Qnh"
+              },
+              "nav_altitude_mcp": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Nav Altitude Mcp"
+              },
+              "nav_heading": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Nav Heading"
+              },
+              "nav_modes": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Nav Modes"
+              },
+              "nic": {
+                "title": "Nic",
+                "type": "integer"
+              },
+              "rc": {
+                "title": "Rc",
+                "type": "integer"
+              },
+              "seen_pos": {
+                "title": "Seen Pos",
+                "type": "integer"
+              },
+              "version": {
+                "title": "Version",
+                "type": "integer"
+              },
+              "nic_baro": {
+                "title": "Nic Baro",
+                "type": "integer"
+              },
+              "nac_p": {
+                "title": "Nac P",
+                "type": "integer"
+              },
+              "nac_v": {
+                "title": "Nac V",
+                "type": "integer"
+              },
+              "sil": {
+                "title": "Sil",
+                "type": "integer"
+              },
+              "sil_type": {
+                "title": "Sil Type",
+                "type": "string"
+              },
+              "gva": {
+                "title": "Gva",
+                "type": "integer"
+              },
+              "sda": {
+                "title": "Sda",
+                "type": "integer"
+              },
+              "alert": {
+                "title": "Alert",
+                "type": "integer"
+              },
+              "spi": {
+                "title": "Spi",
+                "type": "integer"
+              },
+              "mlat": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Mlat",
+                "type": "array"
+              },
+              "tisb": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Tisb",
+                "type": "array"
+              },
+              "messages": {
+                "title": "Messages",
+                "type": "integer"
+              },
+              "seen": {
+                "title": "Seen",
+                "type": "integer"
+              },
+              "rssi": {
+                "title": "Rssi",
+                "type": "number"
+              },
+              "timestamp": {
+                "title": "Timestamp",
+                "type": "string"
               }
-            ]
+            },
+            "required": [
+              "hex",
+              "transponder_type",
+              "flight",
+              "r",
+              "dbFlags",
+              "lat",
+              "lon",
+              "alt_baro",
+              "alt_baro_is_ground",
+              "alt_geom",
+              "gs",
+              "track",
+              "baro_rate",
+              "squawk",
+              "emergency",
+              "category",
+              "nic",
+              "rc",
+              "seen_pos",
+              "version",
+              "nic_baro",
+              "nac_p",
+              "nac_v",
+              "sil",
+              "sil_type",
+              "gva",
+              "sda",
+              "alert",
+              "spi",
+              "mlat",
+              "tisb",
+              "messages",
+              "seen",
+              "rssi",
+              "timestamp"
+            ],
+            "title": "AircraftTrackingData",
+            "type": "object"
           }
         }
       },
@@ -1515,9 +1596,7 @@
         "name": "AircraftTrackingDataIngestAPI",
         "primitive_type": "DataModel"
       },
-      "metadata": {
-        "description": null
-      }
+      "metadata": null
     },
     "EGRESS_aircraftSpeedAltitudeByType": {
       "name": "aircraftSpeedAltitudeByType",
@@ -1530,34 +1609,89 @@
               "required": false
             },
             {
-              "name": "minAltitude",
+              "name": "min_altitude",
               "data_type": "Float64",
               "required": false
             },
             {
-              "name": "maxAltitude",
+              "name": "max_altitude",
               "data_type": "Float64",
               "required": false
             },
             {
-              "name": "minSpeed",
+              "name": "min_speed",
               "data_type": "Float64",
               "required": false
             },
             {
-              "name": "maxSpeed",
+              "name": "max_speed",
               "data_type": "Float64",
               "required": false
             }
           ],
           "output_schema": {
-            "version": "3.1",
-            "components": {
-              "schemas": {}
+            "description": "Result for the aircraft speed and altitude by type API",
+            "properties": {
+              "aircraft_category": {
+                "title": "Aircraft Category",
+                "type": "string"
+              },
+              "total_records": {
+                "title": "Total Records",
+                "type": "integer"
+              },
+              "avg_barometric_altitude": {
+                "title": "Avg Barometric Altitude",
+                "type": "number"
+              },
+              "min_barometric_altitude": {
+                "title": "Min Barometric Altitude",
+                "type": "number"
+              },
+              "max_barometric_altitude": {
+                "title": "Max Barometric Altitude",
+                "type": "number"
+              },
+              "altitude_stddev": {
+                "title": "Altitude Stddev",
+                "type": "number"
+              },
+              "avg_ground_speed": {
+                "title": "Avg Ground Speed",
+                "type": "number"
+              },
+              "min_ground_speed": {
+                "title": "Min Ground Speed",
+                "type": "number"
+              },
+              "max_ground_speed": {
+                "title": "Max Ground Speed",
+                "type": "number"
+              },
+              "speed_stddev": {
+                "title": "Speed Stddev",
+                "type": "number"
+              },
+              "unique_aircraft_count": {
+                "title": "Unique Aircraft Count",
+                "type": "integer"
+              }
             },
-            "schemas": [
-              {}
-            ]
+            "required": [
+              "aircraft_category",
+              "total_records",
+              "avg_barometric_altitude",
+              "min_barometric_altitude",
+              "max_barometric_altitude",
+              "altitude_stddev",
+              "avg_ground_speed",
+              "min_ground_speed",
+              "max_ground_speed",
+              "speed_stddev",
+              "unique_aircraft_count"
+            ],
+            "title": "AircraftSpeedAltitudeResult",
+            "type": "object"
           }
         }
       },
@@ -1569,7 +1703,7 @@
         "primitive_type": "ConsumptionAPI"
       },
       "metadata": {
-        "description": "Provides speed and altitude statistics for different aircraft types/categories"
+        "description": null
       }
     }
   },
@@ -1577,60 +1711,6 @@
     "AircraftTrackingProcessedTable": {
       "name": "AircraftTrackingProcessedTable",
       "columns": [
-        {
-          "name": "zorderCoordinate",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": true,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "approach",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "autopilot",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "althold",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lnav",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "tcas",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
         {
           "name": "hex",
           "data_type": "String",
@@ -1678,7 +1758,7 @@
         },
         {
           "name": "dbFlags",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1834,7 +1914,7 @@
         },
         {
           "name": "nic",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1843,7 +1923,7 @@
         },
         {
           "name": "rc",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1852,7 +1932,7 @@
         },
         {
           "name": "seen_pos",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1861,7 +1941,7 @@
         },
         {
           "name": "version",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1870,7 +1950,7 @@
         },
         {
           "name": "nic_baro",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1879,7 +1959,7 @@
         },
         {
           "name": "nac_p",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1888,7 +1968,7 @@
         },
         {
           "name": "nac_v",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1897,7 +1977,7 @@
         },
         {
           "name": "sil",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1915,7 +1995,7 @@
         },
         {
           "name": "gva",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1924,7 +2004,7 @@
         },
         {
           "name": "sda",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1933,7 +2013,7 @@
         },
         {
           "name": "alert",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1942,7 +2022,7 @@
         },
         {
           "name": "spi",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1975,7 +2055,7 @@
         },
         {
           "name": "messages",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -1984,7 +2064,7 @@
         },
         {
           "name": "seen",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2002,7 +2082,61 @@
         },
         {
           "name": "timestamp",
-          "data_type": "DateTime",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "zorderCoordinate",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": true,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "approach",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "autopilot",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "althold",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lnav",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "tcas",
+          "data_type": "Boolean",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2011,20 +2145,17 @@
         }
       ],
       "order_by": [],
-      "engine": "MergeTree",
+      "engine": null,
       "version": null,
       "source_primitive": {
         "name": "AircraftTrackingProcessedTable",
         "primitive_type": "DataModel"
       },
-      "metadata": {
-        "description": null
-      },
+      "metadata": null,
       "life_cycle": "FULLY_MANAGED",
-      "engine_params_hash": "d5aa53dbc771b396681e589a76e142d602f44981211d28085e2af418e519fe8a",
       "table_settings": {
-        "index_granularity_bytes": "10485760",
         "index_granularity": "8192",
+        "index_granularity_bytes": "10485760",
         "enable_mixed_granularity_parts": "1"
       }
     },
@@ -2078,7 +2209,7 @@
         },
         {
           "name": "dbFlags",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2234,7 +2365,7 @@
         },
         {
           "name": "nic",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2243,7 +2374,7 @@
         },
         {
           "name": "rc",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2252,7 +2383,7 @@
         },
         {
           "name": "seen_pos",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2261,7 +2392,7 @@
         },
         {
           "name": "version",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2270,7 +2401,7 @@
         },
         {
           "name": "nic_baro",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2279,7 +2410,7 @@
         },
         {
           "name": "nac_p",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2288,7 +2419,7 @@
         },
         {
           "name": "nac_v",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2297,7 +2428,7 @@
         },
         {
           "name": "sil",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2315,7 +2446,7 @@
         },
         {
           "name": "gva",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2324,7 +2455,7 @@
         },
         {
           "name": "sda",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2333,7 +2464,7 @@
         },
         {
           "name": "alert",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2342,7 +2473,7 @@
         },
         {
           "name": "spi",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2375,7 +2506,7 @@
         },
         {
           "name": "messages",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2384,7 +2515,7 @@
         },
         {
           "name": "seen",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2402,7 +2533,7 @@
         },
         {
           "name": "timestamp",
-          "data_type": "DateTime",
+          "data_type": "String",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2411,17 +2542,14 @@
         }
       ],
       "order_by": [],
-      "engine": "MergeTree",
+      "engine": null,
       "version": null,
       "source_primitive": {
         "name": "AircraftTrackingDataTable",
         "primitive_type": "DataModel"
       },
-      "metadata": {
-        "description": null
-      },
+      "metadata": null,
       "life_cycle": "FULLY_MANAGED",
-      "engine_params_hash": "d5aa53dbc771b396681e589a76e142d602f44981211d28085e2af418e519fe8a",
       "table_settings": {
         "index_granularity": "8192",
         "index_granularity_bytes": "10485760",
@@ -2431,6 +2559,449 @@
   },
   "views": {},
   "topic_to_table_sync_processes": {
+    "AircraftTrackingProcessedStream_AircraftTrackingProcessedTable": {
+      "source_topic_id": "AircraftTrackingProcessedStream",
+      "target_table_id": "AircraftTrackingProcessedTable",
+      "columns": [
+        {
+          "name": "hex",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": true,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "transponder_type",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "flight",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "r",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "aircraft_type",
+          "data_type": "String",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "dbFlags",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lat",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lon",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_baro",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_baro_is_ground",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alt_geom",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "gs",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "track",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "baro_rate",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "geom_rate",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "squawk",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "emergency",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "category",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_qnh",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_altitude_mcp",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_heading",
+          "data_type": "Float64",
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nav_modes",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": false,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nic",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "rc",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "seen_pos",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "version",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nic_baro",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nac_p",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "nac_v",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sil",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sil_type",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "gva",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "sda",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "alert",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "spi",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "mlat",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "tisb",
+          "data_type": {
+            "elementType": "String",
+            "elementNullable": false
+          },
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "messages",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "seen",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "rssi",
+          "data_type": "Float64",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "timestamp",
+          "data_type": "String",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "zorderCoordinate",
+          "data_type": "Int64",
+          "required": true,
+          "unique": false,
+          "primary_key": true,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "approach",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "autopilot",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "althold",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "lnav",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        },
+        {
+          "name": "tcas",
+          "data_type": "Boolean",
+          "required": true,
+          "unique": false,
+          "primary_key": false,
+          "default": null,
+          "annotations": []
+        }
+      ],
+      "version": null,
+      "source_primitive": {
+        "name": "AircraftTrackingProcessedStream",
+        "primitive_type": "DataModel"
+      }
+    },
     "AircraftTrackingDataStream_AircraftTrackingDataTable": {
       "source_topic_id": "AircraftTrackingDataStream",
       "target_table_id": "AircraftTrackingDataTable",
@@ -2482,7 +3053,7 @@
         },
         {
           "name": "dbFlags",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2638,7 +3209,7 @@
         },
         {
           "name": "nic",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2647,7 +3218,7 @@
         },
         {
           "name": "rc",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2656,7 +3227,7 @@
         },
         {
           "name": "seen_pos",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2665,7 +3236,7 @@
         },
         {
           "name": "version",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2674,7 +3245,7 @@
         },
         {
           "name": "nic_baro",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2683,7 +3254,7 @@
         },
         {
           "name": "nac_p",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2692,7 +3263,7 @@
         },
         {
           "name": "nac_v",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2701,7 +3272,7 @@
         },
         {
           "name": "sil",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2719,7 +3290,7 @@
         },
         {
           "name": "gva",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2728,7 +3299,7 @@
         },
         {
           "name": "sda",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2737,7 +3308,7 @@
         },
         {
           "name": "alert",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2746,7 +3317,7 @@
         },
         {
           "name": "spi",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2779,7 +3350,7 @@
         },
         {
           "name": "messages",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2788,7 +3359,7 @@
         },
         {
           "name": "seen",
-          "data_type": "Float64",
+          "data_type": "Int64",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2806,7 +3377,7 @@
         },
         {
           "name": "timestamp",
-          "data_type": "DateTime",
+          "data_type": "String",
           "required": true,
           "unique": false,
           "primary_key": false,
@@ -2819,449 +3390,6 @@
         "name": "AircraftTrackingDataStream",
         "primitive_type": "DataModel"
       }
-    },
-    "AircraftTrackingProcessedStream_AircraftTrackingProcessedTable": {
-      "source_topic_id": "AircraftTrackingProcessedStream",
-      "target_table_id": "AircraftTrackingProcessedTable",
-      "columns": [
-        {
-          "name": "zorderCoordinate",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": true,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "approach",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "autopilot",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "althold",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lnav",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "tcas",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "hex",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": true,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "transponder_type",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "flight",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "r",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "aircraft_type",
-          "data_type": "String",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "dbFlags",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lat",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "lon",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_baro",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_baro_is_ground",
-          "data_type": "Boolean",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alt_geom",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "gs",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "track",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "baro_rate",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "geom_rate",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "squawk",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "emergency",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "category",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_qnh",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_altitude_mcp",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_heading",
-          "data_type": "Float64",
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nav_modes",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": false,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nic",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "rc",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "seen_pos",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "version",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nic_baro",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nac_p",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "nac_v",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sil",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sil_type",
-          "data_type": "String",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "gva",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "sda",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "alert",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "spi",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "mlat",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "tisb",
-          "data_type": {
-            "elementType": "String",
-            "elementNullable": false
-          },
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "messages",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "seen",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "rssi",
-          "data_type": "Float64",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        },
-        {
-          "name": "timestamp",
-          "data_type": "DateTime",
-          "required": true,
-          "unique": false,
-          "primary_key": false,
-          "default": null,
-          "annotations": []
-        }
-      ],
-      "version": null,
-      "source_primitive": {
-        "name": "AircraftTrackingProcessedStream",
-        "primitive_type": "DataModel"
-      }
     }
   },
   "topic_to_topic_sync_processes": {},
@@ -3270,10 +3398,10 @@
       "name": "AircraftTrackingDataStream__AircraftTrackingProcessedStream",
       "source_topic_id": "AircraftTrackingDataStream",
       "target_topic_id": "AircraftTrackingProcessedStream",
-      "executable": "/Users/chris/Dev/planes/moose/app/index.ts",
+      "executable": "/Users/chris/Dev/planes/moose-py/app/main.py",
       "parallel_process_count": 1,
       "version": null,
-      "language": "Typescript",
+      "language": "Python",
       "source_primitive": {
         "name": "AircraftTrackingDataStream__AircraftTrackingProcessedStream",
         "primitive_type": "Function"
@@ -3284,8 +3412,8 @@
   "block_db_processes": {},
   "consumption_api_web_server": {},
   "orchestration_workers": {
-    "orchestration_worker_ts": {
-      "supported_language": "Typescript"
+    "orchestration_worker_python": {
+      "supported_language": "Python"
     }
   },
   "sql_resources": {},
@@ -3300,7 +3428,7 @@
         "timeout": "1h",
         "tasks": null
       },
-      "language": "Typescript"
+      "language": "Python"
     }
   }
 }
