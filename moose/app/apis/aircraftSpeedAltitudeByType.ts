@@ -1,4 +1,4 @@
-import { ConsumptionApi } from "@514labs/moose-lib";
+import { Api } from "@514labs/moose-lib";
 import { AircraftTrackingProcessed_Table } from "../index";
 import { tags } from "typia";
 
@@ -22,7 +22,7 @@ interface AircraftSpeedAltitudeParams {
  * API that provides speed and altitude statistics for different aircraft types/categories
  * Uses barometric altitude (NOT geometric altitude) and ground speed
  */
-export const aircraftSpeedAltitudeByType = new ConsumptionApi<AircraftSpeedAltitudeParams>(
+export const aircraftSpeedAltitudeByType = new Api<AircraftSpeedAltitudeParams>(
   "aircraftSpeedAltitudeByType",
   async (params, { client, sql }) => {
     // Reference the source table object inside the function
