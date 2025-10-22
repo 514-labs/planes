@@ -24,4 +24,5 @@ export const AircraftTrackingProcessed_Stream = new Stream<AircraftTrackingProce
 AircraftTrackingData_Stream!.addTransform(
   AircraftTrackingProcessed_Stream!,
   transformAircraft,
+  { metadata: { description: "transformAircraft" } }
 );
