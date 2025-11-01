@@ -21,7 +21,12 @@ Prerequisites
 3. Install dependencies: `cd aircraft/moose && npm install`
 5. Run Moose: `moose dev`
 6. In a new terminal, install frontend dependencies `cd aircraft/frontend && npm install`
-7. Run frontend: `npm run dev`
+7. Configure the frontend API URL (optional):
+   - Copy the example environment file: `cp .env.example .env.local`
+   - Edit `.env.local` and set `NEXT_PUBLIC_API_URL` to your backend URL
+   - For local development, the default is `http://localhost:4000`
+   - For production deployments, update to your Boreal URL (e.g., `https://514-demos-planes-main-59be4.boreal.cloud`)
+8. Run frontend: `npm run dev`
 
 You are ready to go!
 
