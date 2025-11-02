@@ -83,7 +83,7 @@ export function AircraftDashboard() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const queryParams = new URLSearchParams();
       Object.entries(filterParams).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
@@ -92,13 +92,13 @@ export function AircraftDashboard() {
       });
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/consumption/aircraftSpeedAltitudeByType?${queryParams}`
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/consumption'}/aircraftSpeedAltitudeByType?${queryParams}`
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const result = await response.json();
       setData(result);
     } catch (err) {
@@ -214,7 +214,7 @@ export function AircraftDashboard() {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div>
                 <Label htmlFor="minAltitude">Min Altitude (ft)</Label>
                 <Input
@@ -225,7 +225,7 @@ export function AircraftDashboard() {
                   onChange={(e) => handleFilterChange('minAltitude', e.target.value ? parseInt(e.target.value) : undefined)}
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="maxAltitude">Max Altitude (ft)</Label>
                 <Input
@@ -236,7 +236,7 @@ export function AircraftDashboard() {
                   onChange={(e) => handleFilterChange('maxAltitude', e.target.value ? parseInt(e.target.value) : undefined)}
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="minSpeed">Min Speed (kts)</Label>
                 <Input
@@ -247,7 +247,7 @@ export function AircraftDashboard() {
                   onChange={(e) => handleFilterChange('minSpeed', e.target.value ? parseInt(e.target.value) : undefined)}
                 />
               </div>
-              
+
               <div>
                 <Label htmlFor="maxSpeed">Max Speed (kts)</Label>
                 <Input
@@ -259,7 +259,7 @@ export function AircraftDashboard() {
                 />
               </div>
             </div>
-            
+
             <div className="flex gap-2 mt-4">
               <Button onClick={applyFilters}>Apply Filters</Button>
               <Button variant="outline" onClick={clearFilters}>
@@ -285,7 +285,7 @@ export function AircraftDashboard() {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Records</CardTitle>
@@ -298,7 +298,7 @@ export function AircraftDashboard() {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Avg Altitude</CardTitle>
@@ -311,7 +311,7 @@ export function AircraftDashboard() {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Avg Speed</CardTitle>
@@ -343,8 +343,8 @@ export function AircraftDashboard() {
                 <XAxis dataKey="aircraft_category" />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar 
-                  dataKey="avg_barometric_altitude" 
+                <Bar
+                  dataKey="avg_barometric_altitude"
                   fill="var(--color-altitude)"
                   name="Avg Altitude (ft)"
                 />
@@ -368,8 +368,8 @@ export function AircraftDashboard() {
                 <XAxis dataKey="aircraft_category" />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar 
-                  dataKey="avg_ground_speed" 
+                <Bar
+                  dataKey="avg_ground_speed"
                   fill="var(--color-speed)"
                   name="Avg Speed (kts)"
                 />
@@ -390,19 +390,19 @@ export function AircraftDashboard() {
             <ChartContainer config={chartConfig}>
               <ScatterChart data={scatterData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="altitude" 
+                <XAxis
+                  dataKey="altitude"
                   name="Altitude (ft)"
                   type="number"
                 />
-                <YAxis 
-                  dataKey="speed" 
+                <YAxis
+                  dataKey="speed"
                   name="Speed (kts)"
                   type="number"
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Scatter 
-                  dataKey="speed" 
+                <Scatter
+                  dataKey="speed"
                   fill="var(--color-altitude)"
                   name="Speed vs Altitude"
                 />
