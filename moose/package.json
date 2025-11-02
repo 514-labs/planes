@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.167",
+    "@types/cors": "^2.8.19",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "ts-patch": "^3.3.0",
     "typia": "^9.6.1"

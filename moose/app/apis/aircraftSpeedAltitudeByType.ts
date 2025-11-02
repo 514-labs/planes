@@ -1,6 +1,7 @@
 import { Api, expressMiddleware, getMooseUtils, WebApp } from "@514labs/moose-lib";
 import { AircraftTrackingProcessed_Table } from "../index";
-import express, { Request } from "express"
+import express, { Request } from "express";
+import cors from "cors";
 
 /**
  * Parameters for the aircraft speed and altitude by type API
@@ -54,6 +55,7 @@ const buildAircraftStatsQuery = (sql: any, aircraft_cols: any, params: AircraftS
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(expressMiddleware());
 
