@@ -9,3 +9,6 @@ dist
 coverage
 .ts-node
 .vscode
+
+# Environment variables
+.env
