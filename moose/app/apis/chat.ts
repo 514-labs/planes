@@ -27,15 +27,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Log API key configuration status on startup
-const apiKeyConfigured = !!process.env.ANTHROPIC_API_KEY;
-if (apiKeyConfigured) {
-  console.log("[Chat API] ✓ ANTHROPIC_API_KEY is configured");
-} else {
-  console.warn("[Chat API] ⚠ ANTHROPIC_API_KEY is NOT configured - chat functionality will not work");
-  console.warn("[Chat API] Please set ANTHROPIC_API_KEY in your .env file (see .env.example)");
-}
-
 // System prompt that describes the ClickHouse schema
 const SYSTEM_PROMPT = `You are a helpful data analyst assistant that helps users query aircraft tracking data stored in ClickHouse.
 
