@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -58,6 +59,7 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
   const [input, setInput] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   // Scroll to bottom when new messages arrive
   React.useEffect(() => {
@@ -70,6 +72,14 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
       }
     }
   }, [messages, isLoading]);
+
+  // Auto-resize textarea as user types
+  React.useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "40px"; // Reset to min height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [input]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,16 +117,31 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
 
       const result = await response.json();
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: result.response || "I received your message but couldn't generate a response.",
-        timestamp: new Date(),
-        sql: result.sql,
-        data: result.data,
-      };
+      // If we have iterations, add each as a separate message
+      if (result.iterations && result.iterations.length > 0) {
+        const newMessages: Message[] = result.iterations.map((iteration: any, index: number) => ({
+          id: `${Date.now() + index + 1}`,
+          role: "assistant" as const,
+          content: iteration.text || "",
+          timestamp: new Date(),
+          sql: iteration.sql,
+          data: iteration.data,
+        }));
 
-      setMessages((prev) => [...prev, assistantMessage]);
+        setMessages((prev) => [...prev, ...newMessages]);
+      } else {
+        // Fallback to single message if no iterations
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: result.response || "I received your message but couldn't generate a response.",
+          timestamp: new Date(),
+          sql: result.sql,
+          data: result.data,
+        };
+
+        setMessages((prev) => [...prev, assistantMessage]);
+      }
     } catch (error) {
       console.error("Error calling chat API:", error);
 
@@ -174,13 +199,21 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
 
         {/* Input Area */}
         <div className="p-4 border-t bg-background">
-          <form onSubmit={handleSendMessage} className="flex gap-2">
-            <Input
+          <form onSubmit={handleSendMessage} className="flex gap-2 items-end">
+            <Textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a question about your data..."
               disabled={isLoading}
-              className="flex-1"
+              className="flex-1 min-h-[40px] max-h-[200px] resize-none overflow-y-auto"
+              rows={1}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage(e as any);
+                }
+              }}
             />
             <Button type="submit" disabled={isLoading || !input.trim()} size="icon">
               <SendIcon className="size-4" />

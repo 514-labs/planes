@@ -157,6 +157,7 @@ app.post("/sendMessage", async (req, res) => {
     let sql = "";
     let data: any[] = [];
     let finalResponse = "";
+    const iterations: Array<{ text: string; sql?: string; data?: any[] }> = [];
 
     // Agentic loop: Keep calling Claude until it stops requesting tools
     let continueLoop = true;
@@ -204,13 +205,22 @@ app.post("/sendMessage", async (req, res) => {
         JSON.stringify(response, null, 2)
       );
 
+      // Track this iteration
+      let iterationText = "";
+      let iterationSql = "";
+      let iterationData: any[] = [];
+
       // Check if Claude is done (stop_reason === "end_turn") or wants to use tools
       if (response.stop_reason === "end_turn") {
         // Extract final text response
         for (const block of response.content) {
           if (block.type === "text") {
+            iterationText += block.text;
             finalResponse += block.text;
           }
+        }
+        if (iterationText.trim()) {
+          iterations.push({ text: iterationText });
         }
         continueLoop = false;
       } else if (response.stop_reason === "tool_use") {
@@ -222,6 +232,7 @@ app.post("/sendMessage", async (req, res) => {
 
         for (const block of response.content) {
           if (block.type === "text") {
+            iterationText += block.text;
             finalResponse += block.text;
           } else if (block.type === "tool_use") {
             const toolName = block.name;
@@ -232,9 +243,10 @@ app.post("/sendMessage", async (req, res) => {
               toolInput
             );
 
-            // Store the SQL query
+            // Store the SQL query (both for this iteration and global)
             if (toolName === "query_clickhouse" && (toolInput as any).query) {
-              sql = (toolInput as any).query;
+              iterationSql = (toolInput as any).query;
+              sql = iterationSql;
             }
 
             // Call our MCP server
@@ -246,11 +258,13 @@ app.post("/sendMessage", async (req, res) => {
               // Parse the data from MCP response
               // Check for structuredContent first (preferred), then text content
               if (mcpResult.structuredContent) {
-                data = mcpResult.structuredContent.rows || [];
+                iterationData = mcpResult.structuredContent.rows || [];
+                data = iterationData;
                 console.log(`[Chat] Extracted ${data.length} rows from structuredContent`);
               } else if (mcpResult.content?.[0]?.text) {
                 const parsedResult = JSON.parse(mcpResult.content[0].text);
-                data = parsedResult.rows || [];
+                iterationData = parsedResult.rows || [];
+                data = iterationData;
                 console.log(`[Chat] Extracted ${data.length} rows from text content`);
               }
 
@@ -272,6 +286,15 @@ app.post("/sendMessage", async (req, res) => {
           }
         }
 
+        // Save this iteration
+        if (iterationText.trim() || iterationSql || iterationData.length > 0) {
+          iterations.push({
+            text: iterationText,
+            sql: iterationSql || undefined,
+            data: iterationData.length > 0 ? iterationData : undefined,
+          });
+        }
+
         // Add assistant response and tool results to messages
         messages.push({
           role: "assistant",
@@ -285,11 +308,12 @@ app.post("/sendMessage", async (req, res) => {
       }
     }
 
-    // Return the final response
+    // Return the final response with iterations
     res.json({
       response: finalResponse,
       sql: sql,
       data: data,
+      iterations: iterations,
     });
   } catch (error) {
     console.error("[Chat] Error processing message:", error);
