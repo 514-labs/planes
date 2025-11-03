@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.168",
+    "@anthropic-ai/sdk": "^0.68.0",
     "@modelcontextprotocol/sdk": "^1.20.2",
     "@types/cors": "^2.8.19",
     "axios": "^1.7.7",
