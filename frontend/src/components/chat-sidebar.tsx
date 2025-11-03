@@ -88,22 +88,49 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
     setInput("");
     setIsLoading(true);
 
-    // TODO: API integration will be added in Phase 5
-    // For now, simulate a response with mock SQL and data
-    setTimeout(() => {
+    // Call the backend chat API
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+      const response = await fetch(`${baseUrl}/chat/api/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: userMessage.content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Based on the query results, there are 948 unique aircraft being tracked in the system. This represents aircraft from various categories including commercial flights, private aircraft, and military aircraft.",
+        content: result.response || "I received your message but couldn't generate a response.",
         timestamp: new Date(),
-        sql: "SELECT COUNT(DISTINCT hex) as aircraft_count FROM local.AircraftTrackingDataTable",
-        data: [
-          { aircraft_count: "948" },
-        ],
+        sql: result.sql,
+        data: result.data,
       };
+
       setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Error calling chat API:", error);
+
+      // Add error message to chat
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : "Unknown error"}. Please make sure the backend is running.`,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

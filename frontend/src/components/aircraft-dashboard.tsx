@@ -93,8 +93,9 @@ export function AircraftDashboard() {
         }
       });
 
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/consumption'}/aircraftSpeedAltitudeByType?${queryParams}`
+        `${baseUrl}/consumption/aircraftSpeedAltitudeByType?${queryParams}`
       );
 
       if (!response.ok) {
