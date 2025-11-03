@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ScatterChart, Scatter, PieChart, Pie, Cell } from "recharts";
-import { Plane, TrendingUp, TrendingDown, Activity, Filter, X } from "lucide-react";
+import { Plane, TrendingUp, TrendingDown, Activity, Filter, X, MessageSquare } from "lucide-react";
+import { ChatSidebar } from "@/components/chat-sidebar";
 
 interface AircraftData {
   aircraft_category: string;
@@ -78,6 +79,7 @@ export function AircraftDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterParams>({});
   const [showFilters, setShowFilters] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   const fetchData = async (filterParams: FilterParams = {}) => {
     try {
@@ -494,6 +496,19 @@ export function AircraftDashboard() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Floating Chat Button */}
+      <Button
+        onClick={() => setChatOpen(true)}
+        size="lg"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg"
+        aria-label="Open chat"
+      >
+        <MessageSquare className="size-6" />
+      </Button>
+
+      {/* Chat Sidebar */}
+      <ChatSidebar open={chatOpen} onOpenChange={setChatOpen} />
     </div>
   );
 } 
