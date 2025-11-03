@@ -1,3 +1,35 @@
+/**
+ * Chat Sidebar Component
+ *
+ * AI-powered chat interface for natural language queries to ClickHouse aircraft data.
+ *
+ * Features:
+ * - Slide-out sidebar (810px wide) triggered from parent component
+ * - Natural language input with auto-growing textarea
+ * - Multi-iteration display showing Claude's reasoning process
+ * - Collapsible SQL query display for transparency
+ * - Formatted data tables with horizontal scrolling
+ * - Real-time loading states with animated ellipsis
+ * - Message history stored in-memory (resets on page reload)
+ *
+ * Backend Integration:
+ * - POST to /chat/api/sendMessage
+ * - Receives: { iterations: [{ text, sql, data }], response, sql, data }
+ * - Each iteration displayed as separate message bubble
+ * - Supports multi-step agentic reasoning (up to 5 iterations)
+ *
+ * User Experience:
+ * - Enter: Send message
+ * - Shift+Enter: New line in input
+ * - Auto-scroll to latest message
+ * - Empty state with example questions
+ * - Error handling with user-friendly messages
+ *
+ * Props:
+ * - open: boolean - Controls sidebar visibility
+ * - onOpenChange: (open: boolean) => void - Callback when sidebar opens/closes
+ */
+
 "use client";
 
 import * as React from "react";
@@ -162,9 +194,9 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full sm:w-[540px] flex flex-col p-0"
+        className="w-full sm:w-[810px] sm:!max-w-[810px] flex flex-col overflow-hidden p-0"
       >
-        <SheetHeader className="px-6 pt-6 pb-4 border-b">
+        <SheetHeader className="px-6 pt-6 pb-4 border-b shrink-0">
           <SheetTitle>Chat with your data</SheetTitle>
           <SheetDescription>
             Ask questions about aircraft tracking data in natural language
@@ -172,7 +204,7 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
         </SheetHeader>
 
         {/* Messages Area */}
-        <ScrollArea ref={scrollAreaRef} className="flex-1">
+        <ScrollArea ref={scrollAreaRef} className="flex-1 min-h-0">
           <div className="space-y-4 py-4 px-6">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
@@ -198,7 +230,7 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
         </ScrollArea>
 
         {/* Input Area */}
-        <div className="p-4 border-t bg-background">
+        <div className="p-4 border-t bg-background shrink-0">
           <form onSubmit={handleSendMessage} className="flex gap-2 items-end">
             <Textarea
               ref={textareaRef}
