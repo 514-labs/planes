@@ -319,10 +319,12 @@ function LoadingSkeleton() {
         </AvatarFallback>
       </Avatar>
 
-      <div className="rounded-lg px-4 py-2 bg-muted max-w-[80%] space-y-2">
-        <Skeleton className="h-4 w-48" />
-        <Skeleton className="h-4 w-36" />
-        <Skeleton className="h-4 w-40" />
+      <div className="rounded-lg px-4 py-3 bg-muted max-w-[80%]">
+        <div className="flex items-center gap-1">
+          <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+          <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+          <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce"></div>
+        </div>
       </div>
     </div>
   );
