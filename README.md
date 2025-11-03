@@ -34,6 +34,55 @@ You can start editing the app by modifying primitives in the `app` subdirectory.
 
 This project gets data from http://adsb.lol.
 
+## Chat Feature
+
+This project includes an AI-powered chat interface that allows you to query aircraft tracking data using natural language.
+
+### Setup
+
+The chat feature requires an Anthropic API key:
+
+1. Get your API key from [Anthropic Console](https://console.anthropic.com/settings/keys)
+2. Add it to `moose/.env`:
+   ```bash
+   ANTHROPIC_API_KEY=your_api_key_here
+   ```
+
+### Usage
+
+1. Start the backend (moose) and frontend servers (see Getting Started above)
+2. Open the dashboard at `http://localhost:3000`
+3. Click the floating chat button in the bottom-right corner
+4. Ask questions about your aircraft data in natural language
+
+### Example Questions
+
+- "How many aircraft are being tracked?"
+- "Show me the 5 highest flying aircraft"
+- "Which aircraft are on autopilot?"
+- "What flights are currently on approach?"
+
+### Features
+
+- **Natural Language Queries**: Ask questions in plain English
+- **SQL Transparency**: View the generated SQL queries
+- **Data Visualization**: Results displayed in formatted tables
+- **Multi-Step Reasoning**: See Claude's thought process across multiple iterations
+- **Auto-Growing Input**: Textarea expands as you type longer questions
+
+### Architecture
+
+The chat feature uses:
+- **Frontend**: React-based chat sidebar with shadcn/ui components
+- **Backend**: Express API at `/chat/api/sendMessage`
+- **AI Model**: Anthropic Claude (claude-sonnet-4-5)
+- **MCP Integration**: Model Context Protocol server for ClickHouse queries
+- **Database**: ClickHouse for fast analytics
+
+For more technical details, see:
+- Backend documentation: `moose/README.md`
+- Frontend documentation: `frontend/README.md`
+
 ## Learn More
 
 To learn more about Moose, take a look at the following resources:

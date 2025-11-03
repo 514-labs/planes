@@ -1,3 +1,26 @@
+/**
+ * Aircraft Dashboard Component
+ *
+ * Main dashboard displaying real-time aircraft tracking data with interactive visualizations.
+ *
+ * Features:
+ * - Real-time data fetching from backend consumption API
+ * - Interactive charts (bar, scatter, pie) showing altitude, speed, and category distributions
+ * - Filterable data table with search and filter capabilities
+ * - Summary statistics cards with trend indicators
+ * - Integrated chat interface via floating button (bottom-right corner)
+ *
+ * Data Structure:
+ * - Fetches from: /consumption/aircraftSpeedAltitudeByType
+ * - Supports filtering by: category, altitude range, speed range
+ * - Displays 9 aircraft categories (A0-A7, D7)
+ *
+ * Chat Integration:
+ * - Floating MessageSquare button triggers ChatSidebar
+ * - Allows natural language queries to ClickHouse data
+ * - See chat-sidebar.tsx for implementation details
+ */
+
 "use client";
 
 import React, { useState, useEffect } from "react";
