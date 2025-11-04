@@ -60,7 +60,7 @@ app.use(express.json());
 app.use(expressMiddleware());
 
 /**
- * BYOF Express API Handler
+ * Express API Handler
  * API that provides speed and altitude statistics for different aircraft types/categories
  * Uses barometric altitude (NOT geometric altitude) and ground speed
  */
@@ -99,7 +99,7 @@ new WebApp("aircraft", app, {
  * Moose Consumption Api
  * API that provides speed and altitude statistics for different aircraft types/categories
  * Uses barometric altitude (NOT geometric altitude) and ground speed
- */
+
 export const aircraftSpeedAltitudeByType = new Api<AircraftSpeedAltitudeParams>(
   "aircraftSpeedAltitudeByType",
   async (params, { client, sql }) => {
@@ -118,3 +118,4 @@ export const aircraftSpeedAltitudeByType = new Api<AircraftSpeedAltitudeParams>(
     },
   }
 );
+ */
