@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ChatStatus } from "ai";
@@ -10,9 +10,11 @@ import { cn } from "@/lib/utils";
 type ChatInputProps = {
   sendMessage: (text: string) => void;
   status: ChatStatus;
+  onClear?: () => void;
+  hasMessages?: boolean;
 };
 
-export function ChatInput({ sendMessage, status }: ChatInputProps) {
+export function ChatInput({ sendMessage, status, onClear, hasMessages = false }: ChatInputProps) {
   const [input, setInput] = useState("");
 
   const handleSubmit = (inputValue: string) => {
@@ -55,18 +57,36 @@ export function ChatInput({ sendMessage, status }: ChatInputProps) {
           <div className="text-xs text-muted-foreground">
             Press Enter to send, Shift+Enter for new line
           </div>
-          <Button
-            type="submit"
-            size="sm"
-            disabled={status !== "ready" || !input.trim()}
-            className={cn(
-              "h-7 px-3",
-              "bg-primary hover:bg-primary/90 text-primary-foreground",
-              "disabled:opacity-50 disabled:pointer-events-none"
+          <div className="flex gap-2">
+            {onClear && hasMessages && (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={onClear}
+                disabled={status !== "ready"}
+                className={cn(
+                  "h-7 px-3",
+                  "disabled:opacity-50 disabled:pointer-events-none"
+                )}
+                title="Clear conversation"
+              >
+                <Trash2 className="w-3 h-3" />
+              </Button>
             )}
-          >
-            <Send className="w-3 h-3" />
-          </Button>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={status !== "ready" || !input.trim()}
+              className={cn(
+                "h-7 px-3",
+                "bg-primary hover:bg-primary/90 text-primary-foreground",
+                "disabled:opacity-50 disabled:pointer-events-none"
+              )}
+            >
+              <Send className="w-3 h-3" />
+            </Button>
+          </div>
         </div>
       </form>
     </div>
