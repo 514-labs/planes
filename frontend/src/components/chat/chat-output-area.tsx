@@ -103,22 +103,16 @@ function AIOutput({
             case "step-start":
             case "step-finish":
             case "step":
+            case "data-tool-timing":
               // Handle step-related parts - these are part of multi-step workflows
               // These contain metadata like messageId, request info, usage stats, etc.
               // For now, we don't render anything for these internal step indicators
               return null;
 
-            default:
-              // Handle tool calls (tool-*)
-              if (part.type.startsWith("tool-")) {
-                const timing = part.toolCallId
-                  ? toolTimings[part.toolCallId]
-                  : undefined;
-                return (
-                  <ToolInvocation key={index} part={part} timing={timing} />
-                );
-              }
+            case "dynamic-tool":
+              return <ToolInvocation key={index} part={part} timing={toolTimings[part.toolCallId]} />;
 
+            default:
               console.log("unknown part type", part.type);
               return null;
           }
