@@ -60,14 +60,16 @@ export default function ResizableChatLayout({
     0
   );
 
-  // Chat state management
-  const [isChatOpen, setIsChatOpen] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(CHAT_OPEN_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : false;
+  // Chat state management - start with defaults to avoid hydration mismatch
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // Hydrate from localStorage after mount to avoid hydration mismatch
+  useEffect(() => {
+    const saved = localStorage.getItem(CHAT_OPEN_STORAGE_KEY);
+    if (saved) {
+      setIsChatOpen(JSON.parse(saved));
     }
-    return false;
-  });
+  }, []);
 
   const toggleChat = () => {
     const newValue = !isChatOpen;
@@ -78,6 +80,8 @@ export default function ResizableChatLayout({
   const closeChat = () => {
     setIsChatOpen(false);
     saveChatOpenInLocalStorage(false);
+    // Reset chat size when closing so it always opens at 30%
+    setLastChatSize(null);
   };
 
   // Panel sizing logic
@@ -86,42 +90,24 @@ export default function ResizableChatLayout({
   const [isDragging, setIsDragging] = useState(false);
   const [lastChatSize, setLastChatSize] = useState<number | null>(null);
 
-  const [savedChatSizePercent] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(CHAT_SIZE_STORAGE_KEY);
-      return saved ? parseFloat(saved) : defaultChatWidthPercent;
-    }
-    return defaultChatWidthPercent;
-  });
-
-  const savedChatPercent = useMemo(() => {
-    const minChatPercent =
-      typeof window !== "undefined"
-        ? Math.max(0, (minChatWidthPX / window.innerWidth) * 100)
-        : 0;
-
-    const clampedPercent = Math.min(
-      maxChatWidthPercent,
-      Math.max(minChatPercent, savedChatSizePercent)
-    );
-
-    return clampedPercent;
-  }, [savedChatSizePercent, minChatWidthPX, maxChatWidthPercent]);
-
-  const minChatPercent = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return Math.max(0, (minChatWidthPX / window.innerWidth) * 100);
-    }
-    return 0;
-  }, [minChatWidthPX]);
-
-  const targetChatSize = lastChatSize ?? savedChatPercent;
+  // Always use defaultChatWidthPercent (30%) when opening to avoid hydration mismatch
+  // Only use lastChatSize if user has manually resized
+  const targetChatSize = lastChatSize ?? defaultChatWidthPercent;
 
   const initialDefaultSize = isChatOpen
-    ? (lastChatSize ?? savedChatPercent)
+    ? (lastChatSize ?? defaultChatWidthPercent)
     : 0;
 
   const mainPanelDefaultSize = isChatOpen ? 100 - initialDefaultSize : 100;
+
+  // Calculate minChatPercent only after mount to avoid hydration mismatch
+  const [minChatPercent, setMinChatPercent] = useState(0);
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMinChatPercent(Math.max(0, (minChatWidthPX / window.innerWidth) * 100));
+    }
+  }, [minChatWidthPX]);
 
   useEffect(() => {
     if (chatPanelRef.current) {
@@ -139,6 +125,9 @@ export default function ResizableChatLayout({
       saveChatSizeInLocalStorage(size);
     }
   };
+
+  // Note: We don't load saved chat size on mount because we want to always start at 30% when opening
+  // The saved size is only used to persist the size during a session if user resizes
 
   const contextValue = useMemo(
     () => ({
