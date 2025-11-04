@@ -33,7 +33,7 @@
 "use client";
 
 import * as React from "react";
-import { SendIcon, BotIcon, UserIcon, ChevronDownIcon, DatabaseIcon } from "lucide-react";
+import { SendIcon, BotIcon, UserIcon, DatabaseIcon } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -42,11 +42,9 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Accordion,
   AccordionContent,
