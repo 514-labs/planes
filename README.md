@@ -17,20 +17,18 @@ Prerequisites
 
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 * [Node](https://nodejs.org/en)
-* [An Anthropic API Key](https://docs.anthropic.com/en/api/getting-started)
 * [Cursor](https://www.cursor.com/) or [Claude Desktop](https://claude.ai/download)
 
 1. Install Moose / Aurora: `bash -i <(curl -fsSL https://fiveonefour.com/install.sh) moose,aurora`
-2. Create project `aurora init aircraft ads-b-frontend`
-3. Install dependencies: `cd aircraft/moose && npm install`
-5. Run Moose: `moose dev`
-6. In a new terminal, install frontend dependencies `cd aircraft/frontend && npm install`
-7. Configure the frontend API URL (optional):
+2. Install dependencies: `cd aircraft/moose && npm install`
+3. Run Moose: `moose dev`
+4. In a new terminal, install frontend dependencies `cd aircraft/frontend && npm install`
+5. Configure the frontend API URL (optional):
    * Copy the example environment file: `cp .env.example .env.local`
    * Edit `.env.local` and set `NEXT_PUBLIC_API_URL` to your backend URL
-   * For local development, the default is `http://localhost:4000`
-   * For production deployments, update to your Boreal URL (e.g., `https://514-demos-planes-main-59be4.boreal.cloud`)
-8. Run frontend: `npm run dev`
+     * For local development, the default is `http://localhost:4000`
+     * For production deployments, update to your Boreal URL (e.g., `https://514-demos-planes-main-59be4.boreal.cloud`)
+6. Run frontend: `npm run dev`
 
 You are ready to go!
 
@@ -41,17 +39,6 @@ This project gets data from <http://adsb.lol>.
 ## Chat Feature
 
 This project includes an AI-powered chat interface that allows you to query aircraft tracking data using natural language.
-
-### Setup
-
-The chat feature requires an Anthropic API key:
-
-1. Get your API key from [Anthropic Console](https://console.anthropic.com/settings/keys)
-2. Add it to `moose/.env`:
-
-   ```bash
-   ANTHROPIC_API_KEY=your_api_key_here
-   ```
 
 ### Usage
 
@@ -73,15 +60,14 @@ The chat feature requires an Anthropic API key:
 * **SQL Transparency**: View the generated SQL queries
 * **Data Visualization**: Results displayed in formatted tables
 * **Multi-Step Reasoning**: See Claude's thought process across multiple iterations
-* **Auto-Growing Input**: Textarea expands as you type longer questions
 
 ### Architecture
 
 The chat feature uses:
 
-* **Frontend**: React-based chat sidebar with shadcn/ui components
-* **Backend**: Express API at `/chat/api/sendMessage`
-* **AI Model**: Anthropic Claude (claude-sonnet-4-5)
+* **Frontend**: NextJS project containing a chat sidebar with Vercel's [ai-sdk](https://www.npmjs.com/package/ai-sdk) components
+* **Backend**: Express API w/ MCP server at `/tools`
+* **AI Model**: Anthropic Claude (claude-haiku-4-5)
 * **MCP Integration**: Model Context Protocol server for ClickHouse queries
 * **Database**: ClickHouse for fast analytics
 
@@ -96,8 +82,6 @@ To learn more about Moose, take a look at the following resources:
 
 * [Moose Documentation](https://docs.fiveonefour.com/moose) - learn about Moose.
 * [Aurora Documentation](https://docs.fiveonefour.com/aurora) - learn about Aurora, the MCP interface for data engineering.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 ## Deploy on Boreal
 
