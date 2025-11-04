@@ -21,7 +21,7 @@ export function ChatInput({ sendMessage, status }: ChatInputProps) {
   };
 
   return (
-    <div className="flex-none py-2 pl-1.5 pr-4">
+    <div className="flex-none py-2 px-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -29,7 +29,7 @@ export function ChatInput({ sendMessage, status }: ChatInputProps) {
             handleSubmit(input);
           }
         }}
-        className="w-full space-y-1"
+        className="w-full space-y-2"
       >
         <Textarea
           value={input}
