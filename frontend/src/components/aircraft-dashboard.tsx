@@ -16,9 +16,9 @@
  * - Displays 9 aircraft categories (A0-A7, D7)
  *
  * Chat Integration:
- * - Floating MessageSquare button triggers ChatSidebar
+ * - Floating MessageSquare button toggles resizable chat panel
  * - Allows natural language queries to ClickHouse data
- * - See chat-sidebar.tsx for implementation details
+ * - Uses ResizableChatLayout for resizable chat interface
  */
 
 "use client";
@@ -33,7 +33,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ScatterChart, Scatter, PieChart, Pie, Cell } from "recharts";
 import { Plane, TrendingUp, TrendingDown, Activity, Filter, X, MessageSquare } from "lucide-react";
-import { ChatSidebar } from "@/components/chat-sidebar";
+import ResizableChatLayout, { useChatLayout } from "@/components/resizable-chat-layout";
 
 interface AircraftData {
   aircraft_category: string;
@@ -102,7 +102,6 @@ export function AircraftDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterParams>({});
   const [showFilters, setShowFilters] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
 
   const fetchData = async (filterParams: FilterParams = {}) => {
     try {
@@ -173,28 +172,91 @@ export function AircraftDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex items-center gap-2">
-          <Activity className="w-5 h-5 animate-spin" />
-          <span>Loading aircraft data...</span>
+      <ResizableChatLayout className="h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="flex items-center gap-2">
+            <Activity className="w-5 h-5 animate-spin" />
+            <span>Loading aircraft data...</span>
+          </div>
         </div>
-      </div>
+      </ResizableChatLayout>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <p className="text-red-500 mb-2">Error loading data: {error}</p>
-          <Button onClick={() => fetchData()}>Retry</Button>
+      <ResizableChatLayout className="h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <p className="text-red-500 mb-2">Error loading data: {error}</p>
+            <Button onClick={() => fetchData()}>Retry</Button>
+          </div>
         </div>
-      </div>
+      </ResizableChatLayout>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <ResizableChatLayout className="h-screen">
+      <DashboardContent
+        data={data}
+        sortedData={sortedData}
+        scatterData={scatterData}
+        pieData={pieData}
+        totalAircraft={totalAircraft}
+        totalRecords={totalRecords}
+        avgAltitude={avgAltitude}
+        avgSpeed={avgSpeed}
+        filters={filters}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+        handleFilterChange={handleFilterChange}
+        applyFilters={applyFilters}
+        clearFilters={clearFilters}
+        fetchData={fetchData}
+      />
+    </ResizableChatLayout>
+  );
+}
+
+function DashboardContent({
+  data,
+  sortedData,
+  scatterData,
+  pieData,
+  totalAircraft,
+  totalRecords,
+  avgAltitude,
+  avgSpeed,
+  filters,
+  showFilters,
+  setShowFilters,
+  handleFilterChange,
+  applyFilters,
+  clearFilters,
+  fetchData,
+}: {
+  data: AircraftData[];
+  sortedData: AircraftData[];
+  scatterData: any[];
+  pieData: any[];
+  totalAircraft: number;
+  totalRecords: number;
+  avgAltitude: number;
+  avgSpeed: number;
+  filters: FilterParams;
+  showFilters: boolean;
+  setShowFilters: (show: boolean) => void;
+  handleFilterChange: (key: keyof FilterParams, value: string | number | undefined) => void;
+  applyFilters: () => void;
+  clearFilters: () => void;
+  fetchData: () => void;
+}) {
+  const { toggleChat } = useChatLayout();
+
+  return (
+    <div className="h-full overflow-auto">
+      <div className="container mx-auto p-4 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -523,16 +585,14 @@ export function AircraftDashboard() {
 
       {/* Floating Chat Button */}
       <Button
-        onClick={() => setChatOpen(true)}
+        onClick={toggleChat}
         size="lg"
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg"
         aria-label="Open chat"
       >
         <MessageSquare className="size-6" />
       </Button>
-
-      {/* Chat Sidebar */}
-      <ChatSidebar open={chatOpen} onOpenChange={setChatOpen} />
+    </div>
     </div>
   );
 } 
