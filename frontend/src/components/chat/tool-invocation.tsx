@@ -12,15 +12,21 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { CodeBlock } from "./code-block";
 import { useState } from "react";
 
+const MILLISECONDS_THRESHOLD = 5000;
+
 function formatDuration(milliseconds: number): string {
-  if (milliseconds < 5000) {
+  if (milliseconds < MILLISECONDS_THRESHOLD) {
     return `${Math.round(milliseconds)}ms`;
   }
+
   return `${Math.round(milliseconds / 1000)}s`;
 }
 
+// Correct AI SDK 5 ToolUIPart structure
+// to get better type inference, we need to define for each tool
 type ToolInvocationProps = {
   part: {
     type: `tool-${string}`;
@@ -35,10 +41,12 @@ type ToolInvocationProps = {
     errorText?: string;
     providerExecuted?: boolean;
   };
-  timing?: number;
 };
 
-export function ToolInvocation({ part, timing }: ToolInvocationProps) {
+export function ToolInvocation({
+  part,
+  timing,
+}: ToolInvocationProps & { timing?: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toolName = part.type.startsWith("tool-")
@@ -63,13 +71,6 @@ export function ToolInvocation({ part, timing }: ToolInvocationProps) {
     }
     return null;
   };
-
-  // Extract SQL query from input if available
-  const sqlQuery = part.input?.query;
-
-  // Extract data from output if available
-  const toolOutput = part.output;
-  const rows = toolOutput?.rows || [];
 
   return (
     <div
@@ -128,88 +129,45 @@ export function ToolInvocation({ part, timing }: ToolInvocationProps) {
               isLoading && "opacity-60"
             )}
           >
-            {/* SQL Query Display */}
-            {sqlQuery && (
+            {/* Provider Executed */}
+            {part.providerExecuted !== undefined && (
               <div className="pt-3">
-                <div className="text-sm text-muted-foreground mb-2">SQL Query:</div>
-                <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words font-mono">
-                  <code>{sqlQuery}</code>
-                </pre>
+                <div className="text-sm text-muted-foreground mb-1">
+                  Provider Executed:
+                </div>
+                <Badge variant="outline" className="text-xs">
+                  {part.providerExecuted ? "Yes" : "No"}
+                </Badge>
               </div>
             )}
 
-            {/* Input Display */}
-            {part.input && !sqlQuery && (
-              <div className="pt-3">
+            {part.input && (
+              <div
+                className={part.providerExecuted === undefined ? "pt-3" : ""}
+              >
                 <div className="text-sm text-muted-foreground mb-2">Input:</div>
-                <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words font-mono">
-                  <code>{JSON.stringify(part.input, null, 2)}</code>
-                </pre>
+                <CodeBlock language="json">
+                  {JSON.stringify(part.input, null, 2)}
+                </CodeBlock>
               </div>
             )}
 
-            {/* Data Table Display */}
-            {rows.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
-                  <span className="text-sm text-muted-foreground">
-                    Query Results ({rows.length} row{rows.length !== 1 ? "s" : ""}):
-                  </span>
-                </div>
-                <div className="rounded-md border overflow-x-auto">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="border-b">
-                        {Object.keys(rows[0]).map((key) => (
-                          <th
-                            key={key}
-                            className="px-3 py-2 text-left font-medium"
-                          >
-                            {key}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.slice(0, 20).map((row: any, idx: number) => (
-                        <tr key={idx} className="border-b">
-                          {Object.values(row).map((value: any, cellIdx: number) => (
-                            <td key={cellIdx} className="px-3 py-2 font-mono">
-                              {String(value)}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {rows.length > 20 && (
-                    <div className="px-3 py-2 text-xs text-muted-foreground">
-                      Showing first 20 of {rows.length} rows
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Output Display (fallback if no rows) */}
-            {toolOutput && rows.length === 0 && (
+            {part.output && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
                   <span className="text-sm text-muted-foreground">Output:</span>
                 </div>
-                <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words font-mono">
-                  <code>
-                    {typeof toolOutput === "string"
-                      ? toolOutput
-                      : JSON.stringify(toolOutput, null, 2)}
-                  </code>
-                </pre>
+                <CodeBlock
+                  language={typeof part.output === "string" ? "text" : "json"}
+                >
+                  {typeof part.output === "string"
+                    ? part.output
+                    : JSON.stringify(part.output, null, 2)}
+                </CodeBlock>
               </div>
             )}
 
-            {/* Error Display */}
             {part.errorText && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -229,5 +187,3 @@ export function ToolInvocation({ part, timing }: ToolInvocationProps) {
     </div>
   );
 }
-
-

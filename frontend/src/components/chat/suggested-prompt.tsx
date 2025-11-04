@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const SUGGESTED_PROMPTS = [
   "How many aircraft are being tracked?",
