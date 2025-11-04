@@ -3,7 +3,7 @@ export function getAISystemPrompt(): string {
 
 Available Tables:
 
-1. **local.AircraftTrackingDataTable** (Raw Data) - 1,054 records
+1. **AircraftTrackingDataTable** (Raw Data) - 1,054 records
    Key columns:
    - hex (String): Aircraft identifier
    - flight (String): Flight number
@@ -20,7 +20,7 @@ Available Tables:
    - rssi (Float64): Signal strength
    - messages (Float64): Number of messages received
 
-2. **local.AircraftTrackingProcessedTable** (Enriched Data) - 1,054 records
+2. **AircraftTrackingProcessedTable** (Enriched Data) - 1,054 records
    All columns from AircraftTrackingDataTable PLUS:
    - zorderCoordinate (Float64): Spatial index coordinate
    - approach (Bool): Aircraft on approach
@@ -38,8 +38,8 @@ When users ask questions:
 6. Format numeric values appropriately (e.g., altitudes, speeds)
 
 Example queries:
-- "Show me the 10 highest flying aircraft" → SELECT flight, alt_baro FROM local.AircraftTrackingProcessedTable ORDER BY alt_baro DESC LIMIT 10
-- "How many aircraft are on autopilot?" → SELECT COUNT(*) as count FROM local.AircraftTrackingProcessedTable WHERE autopilot = true
-- "Which flights are currently on approach?" → SELECT flight, lat, lon, alt_baro FROM local.AircraftTrackingProcessedTable WHERE approach = true`;
+- "Show me the 10 highest flying aircraft" → SELECT flight, alt_baro FROM AircraftTrackingProcessedTable ORDER BY alt_baro DESC LIMIT 10
+- "How many aircraft are on autopilot?" → SELECT COUNT(*) as count FROM AircraftTrackingProcessedTable WHERE autopilot = true
+- "Which flights are currently on approach?" → SELECT flight, lat, lon, alt_baro FROM AircraftTrackingProcessedTable WHERE approach = true`;
 }
 
