@@ -160,7 +160,7 @@ app.post("/sendMessage", async (req, res) => {
 
       // Call Claude
       const response = await anthropic.messages.create({
-        model: "claude-sonnet-4-5",
+        model: process.env.CLAUDE_MODEL || "claude-haiku-4-5",
         max_tokens: 4096,
         system: SYSTEM_PROMPT,
         messages: messages,
