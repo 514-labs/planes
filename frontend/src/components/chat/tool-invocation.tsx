@@ -29,15 +29,25 @@ function formatDuration(milliseconds: number): string {
 // to get better type inference, we need to define for each tool
 type ToolInvocationProps = {
   part: {
-    type: `tool-${string}`;
+    type: `tool-${string}` | "dynamic-tool";
     toolCallId: string;
+    toolName?: string; // For dynamic-tool type
     state:
       | "input-streaming"
       | "input-available"
       | "output-available"
       | "output-error";
     input?: any;
-    output?: any;
+    output?:
+      | any
+      | {
+          content?: Array<{
+            type: string;
+            text?: string;
+          }>;
+          isError?: boolean;
+          structuredContent?: any;
+        };
     errorText?: string;
     providerExecuted?: boolean;
   };
@@ -49,9 +59,9 @@ export function ToolInvocation({
 }: ToolInvocationProps & { timing?: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toolName = part.type.startsWith("tool-")
-    ? part.type.slice(5)
-    : part.type;
+  const toolName =
+    part.toolName ||
+    (part.type.startsWith("tool-") ? part.type.slice(5) : part.type);
 
   const isLoading = part.state === "input-streaming";
 
@@ -155,15 +165,41 @@ export function ToolInvocation({
             {part.output && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  {part.output &&
+                  typeof part.output === "object" &&
+                  "isError" in part.output &&
+                  part.output.isError ? (
+                    <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400" />
+                  ) : (
+                    <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  )}
                   <span className="text-sm text-muted-foreground">Output:</span>
                 </div>
                 <CodeBlock
-                  language={typeof part.output === "string" ? "text" : "json"}
+                  language={
+                    typeof part.output === "string" ? "text" : "json"
+                  }
                 >
-                  {typeof part.output === "string"
-                    ? part.output
-                    : JSON.stringify(part.output, null, 2)}
+                  {(() => {
+                    // Handle structured output format
+                    if (
+                      part.output &&
+                      typeof part.output === "object" &&
+                      "structuredContent" in part.output &&
+                      part.output.structuredContent !== undefined
+                    ) {
+                      return JSON.stringify(
+                        part.output.structuredContent,
+                        null,
+                        2
+                      );
+                    }
+                    // Handle legacy format
+                    if (typeof part.output === "string") {
+                      return part.output;
+                    }
+                    return JSON.stringify(part.output, null, 2);
+                  })()}
                 </CodeBlock>
               </div>
             )}
