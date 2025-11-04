@@ -44,7 +44,7 @@ function UserOutput({ message }: { message: UIMessage }) {
       className={cn(
         "p-3 rounded-lg text-sm leading-relaxed",
         "bg-background border border-input dark:bg-input/30",
-        "text-foreground"
+        "text-foreground bg-muted"
       )}
     >
       {message.parts && message.parts.length > 0 ? (
