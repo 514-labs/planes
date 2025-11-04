@@ -11,12 +11,8 @@ import * as React from "react";
 import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { AlertTriangle } from "lucide-react";
-import {
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { AlertTriangle, MessageSquare, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatOutputArea } from "./chat/chat-output-area";
 import { ChatInput } from "./chat/chat-input";
@@ -37,7 +33,11 @@ function MissingKeyMessage() {
   );
 }
 
-export function ChatUI() {
+type ChatUIProps = {
+  onClose?: () => void;
+};
+
+export function ChatUI({ onClose }: ChatUIProps) {
   const { data: anthropicStatus, isLoading: isStatusLoading } =
     useAnthropicStatus();
 
@@ -89,24 +89,39 @@ export function ChatUI() {
     !anthropicStatus.anthropicKeyAvailable;
 
   return (
-    <>
-      <SheetHeader className="px-6 pt-6 pb-4 border-b shrink-0">
-        <SheetTitle>Chat with your data</SheetTitle>
-        <SheetDescription>
-          Ask questions about aircraft tracking data in natural language
-        </SheetDescription>
-      </SheetHeader>
+    <div className="w-full h-full flex flex-col bg-sidebar text-foreground overflow-hidden relative">
+      {/* Header */}
+      <div className="flex-none py-3 px-4">
+        <div className="flex items-center justify-between text-sm font-medium">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-primary" />
+            <span>Chat</span>
+          </div>
+          {onClose && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="h-6 w-6 p-0 hover:bg-accent"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
+      </div>
 
       {/* Messages Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 min-h-0">
-        <div className="space-y-4 py-4 px-6">
-          <ChatOutputArea
-            messages={messages}
-            status={status}
-            toolTimings={toolTimings}
-          />
-        </div>
-      </ScrollArea>
+      <div className="flex-1 min-h-0 overflow-hidden py-3">
+        <ScrollArea ref={scrollAreaRef} className="h-full">
+          <div className="space-y-4 py-4 px-6">
+            <ChatOutputArea
+              messages={messages}
+              status={status}
+              toolTimings={toolTimings}
+            />
+          </div>
+        </ScrollArea>
+      </div>
 
       {isEmptyState && (
         <SuggestedPrompt onPromptClick={handleSuggestedPromptClick} />
@@ -116,7 +131,7 @@ export function ChatUI() {
 
       {/* Overlay when Anthropic key is missing */}
       {showKeyMissingOverlay && <MissingKeyMessage />}
-    </>
+    </div>
   );
 }
 
