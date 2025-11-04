@@ -22,14 +22,9 @@ Backend application for aircraft tracking using MooseStack for real-time data pr
 
 Model Context Protocol server exposing ClickHouse query tools for AI assistants.
 
-### Consumption API (`/aircraft/api`)
+### Data API (`/aircraft/api`)
 
-MooseStack consumption endpoints for data access.
-
-## Development
-
-- `npm run dev` - Start development server
-- `npm run build` - Build Docker container
+MooseStack `WebApp` endpoints for data access.
 
 ## Architecture
 
