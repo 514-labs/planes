@@ -4,14 +4,14 @@
  * Main dashboard displaying real-time aircraft tracking data with interactive visualizations.
  *
  * Features:
- * - Real-time data fetching from backend consumption API
+ * - Real-time data fetching from backend Express API
  * - Interactive charts (bar, scatter, pie) showing altitude, speed, and category distributions
  * - Filterable data table with search and filter capabilities
  * - Summary statistics cards with trend indicators
  * - Integrated chat interface via floating button (bottom-right corner)
  *
  * Data Structure:
- * - Fetches from: /consumption/aircraftSpeedAltitudeByType
+ * - Fetches from: /aircraft/api/aircraftSpeedAltitudeByType
  * - Supports filtering by: category, altitude range, speed range
  * - Displays 9 aircraft categories (A0-A7, D7)
  *
@@ -117,7 +117,7 @@ export function AircraftDashboard() {
 
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
       const response = await fetch(
-        `${baseUrl}/consumption/aircraftSpeedAltitudeByType?${queryParams}`
+        `${baseUrl}/aircraft/api/aircraftSpeedAltitudeByType?${queryParams}`
       );
 
       if (!response.ok) {
