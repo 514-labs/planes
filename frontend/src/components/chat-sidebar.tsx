@@ -71,6 +71,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
+// Iteration type from backend response
+interface Iteration {
+  text?: string;
+  sql?: string;
+  data?: Record<string, unknown>[];
+}
+
 // Message type definition
 interface Message {
   id: string;
@@ -78,7 +85,7 @@ interface Message {
   content: string;
   timestamp: Date;
   sql?: string; // SQL query that was executed
-  data?: Record<string, any>[]; // Query results
+  data?: Record<string, unknown>[]; // Query results
 }
 
 interface ChatSidebarProps {
@@ -151,7 +158,7 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
 
       // If we have iterations, add each as a separate message
       if (result.iterations && result.iterations.length > 0) {
-        const newMessages: Message[] = result.iterations.map((iteration: any, index: number) => ({
+        const newMessages: Message[] = result.iterations.map((iteration: Iteration, index: number) => ({
           id: `${Date.now() + index + 1}`,
           role: "assistant" as const,
           content: iteration.text || "",
@@ -214,9 +221,9 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
                   tracking data. For example:
                 </p>
                 <div className="mt-4 space-y-2 text-xs text-muted-foreground">
-                  <p>"How many aircraft are being tracked?"</p>
-                  <p>"Show me the highest flying aircraft"</p>
-                  <p>"Which flights are on autopilot?"</p>
+                  <p>&quot;How many aircraft are being tracked?&quot;</p>
+                  <p>&quot;Show me the highest flying aircraft&quot;</p>
+                  <p>&quot;Which flights are on autopilot?&quot;</p>
                 </div>
               </div>
             )}
@@ -243,7 +250,7 @@ export function ChatSidebar({ open, onOpenChange }: ChatSidebarProps) {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  handleSendMessage(e as any);
+                  handleSendMessage(e as React.FormEvent);
                 }
               }}
             />
