@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Code } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type ReasoningSectionProps = {
   part: any; // Reasoning part from AI SDK
