@@ -122,11 +122,11 @@ export function ToolInvocation({
 
             <div className="flex-1" />
 
-            {part.state === "output-available" && timing && (
+            {/* {part.state === "output-available" && timing && (
               <Badge variant="secondary" className="text-xs mr-2">
                 {formatDuration(timing)}
               </Badge>
-            )}
+            )} */}
 
             {getStatusIcon()}
           </div>

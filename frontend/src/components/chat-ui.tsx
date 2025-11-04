@@ -44,7 +44,7 @@ export function ChatUI({ onClose }: ChatUIProps) {
   const [toolTimings, setToolTimings] = useState<Record<string, number>>({});
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, setMessages } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
@@ -80,6 +80,11 @@ export function ChatUI({ onClose }: ChatUIProps) {
 
   const handleSendMessage = (text: string) => {
     sendMessage({ text });
+  };
+
+  const handleClearConversation = () => {
+    setMessages([]);
+    setToolTimings({});
   };
 
   const isEmptyState = messages.length === 0;
@@ -127,7 +132,12 @@ export function ChatUI({ onClose }: ChatUIProps) {
         <SuggestedPrompt onPromptClick={handleSuggestedPromptClick} />
       )}
 
-      <ChatInput sendMessage={handleSendMessage} status={status} />
+      <ChatInput 
+        sendMessage={handleSendMessage} 
+        status={status} 
+        onClear={handleClearConversation}
+        hasMessages={messages.length > 0}
+      />
 
       {/* Overlay when Anthropic key is missing */}
       {showKeyMissingOverlay && <MissingKeyMessage />}
