@@ -2,6 +2,7 @@ import { Api, expressMiddleware, getMooseUtils, WebApp } from "@514labs/moose-li
 import { AircraftTrackingProcessed_Table } from "../index";
 import express, { Request } from "express";
 import cors from "cors";
+import { AircraftTrackingProcessed } from "datamodels/models";
 
 /**
  * Parameters for the aircraft speed and altitude by type API
@@ -22,7 +23,7 @@ interface AircraftSpeedAltitudeParams {
 /**
  * Constructs the SQL query for aircraft speed and altitude statistics
  */
-const buildAircraftStatsQuery = (sql: any, aircraft_cols: any, params: AircraftSpeedAltitudeParams) => {
+const buildAircraftStatsQuery = (sql: any, aircraft_cols: typeof AircraftTrackingProcessed_Table.columns, params: AircraftSpeedAltitudeParams) => {
   return sql`
     SELECT
       ${aircraft_cols.category} as aircraft_category,
@@ -116,7 +117,6 @@ app.get("/averageSpeed", async (req: Request, res) => {
       MIN(${aircraft_cols.gs}) as min_speed,
       MAX(${aircraft_cols.gs}) as max_speed
     FROM ${AircraftTrackingProcessed_Table}
-    WHERE ${aircraft_cols.gs} > 0
   `;
 
   try {
