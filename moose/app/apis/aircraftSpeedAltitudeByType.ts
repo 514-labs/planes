@@ -2,6 +2,7 @@ import { Api, expressMiddleware, getMooseUtils, WebApp } from "@514labs/moose-li
 import { AircraftTrackingProcessed_Table } from "../index";
 import express, { Request } from "express";
 import cors from "cors";
+import { AircraftTrackingProcessed } from "datamodels/models";
 
 /**
  * Parameters for the aircraft speed and altitude by type API
@@ -22,7 +23,7 @@ interface AircraftSpeedAltitudeParams {
 /**
  * Constructs the SQL query for aircraft speed and altitude statistics
  */
-const buildAircraftStatsQuery = (sql: any, aircraft_cols: any, params: AircraftSpeedAltitudeParams) => {
+const buildAircraftStatsQuery = (sql: any, aircraft_cols: typeof AircraftTrackingProcessed_Table.columns, params: AircraftSpeedAltitudeParams) => {
   return sql`
     SELECT
       ${aircraft_cols.category} as aircraft_category,
@@ -85,6 +86,47 @@ app.get("/aircraftSpeedAltitudeByType", async (req: Request<{}, {}, {}, Aircraft
 
   const data = await result.json();
   res.json(data);
+});
+
+/**
+ * Express API Handler
+ * API that returns the average speed across all aircraft
+ * Uses ground speed (gs) field from AircraftTrackingProcessedTable
+ * No filters applied - calculates average across all records
+ */
+app.get("/averageSpeed", async (req: Request, res) => {
+  const moose = getMooseUtils(req);
+  if (!moose) {
+    console.error("MooseStack utilities not available");
+    return res
+      .status(500)
+      .json({ error: "MooseStack utilities not available" });
+  }
+
+  const { client, sql } = moose;
+
+  // Reference the source table object
+  const aircraft_cols = AircraftTrackingProcessed_Table?.columns;
+
+  // Build query to calculate average speed across all aircraft
+  // No filters applied as requested
+  const query = sql`
+    SELECT
+      AVG(${aircraft_cols.gs}) as average_speed,
+      COUNT(*) as total_records,
+      MIN(${aircraft_cols.gs}) as min_speed,
+      MAX(${aircraft_cols.gs}) as max_speed
+    FROM ${AircraftTrackingProcessed_Table}
+  `;
+
+  try {
+    const result = await client.query.execute(query);
+    const data = await result.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error executing average speed query:", error);
+    res.status(500).json({ error: "Failed to calculate average speed" });
+  }
 });
 
 new WebApp("aircraft", app, {
