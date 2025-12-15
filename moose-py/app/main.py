@@ -8,5 +8,5 @@ from app.ingest.aircraft_tracking import (
 )
 
 # Import APIs and workflows
-from app.apis.aircraft_speed_altitude_by_type import aircraft_speed_altitude_by_type
+from app.apis.aircraft_speed_altitude_by_type import aircraft_fastapi_app
 from app.connectors.fetch_and_ingest_military_aircraft import military_aircraft_tracking_workflow
