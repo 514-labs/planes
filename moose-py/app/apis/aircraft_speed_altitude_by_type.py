@@ -1,20 +1,33 @@
-from typing import Optional
-from moose_lib import Api, MooseClient
+from typing import Optional, Any, List
+import logging
+
+from fastapi import FastAPI, Query, Request, HTTPException  # pyright: ignore[reportMissingImports]
+from fastapi.middleware.cors import CORSMiddleware  # pyright: ignore[reportMissingImports]
+from moose_lib.dmv2 import WebApp, WebAppConfig, WebAppMetadata
+from moose_lib.dmv2.web_app_helpers import get_moose_utils
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
+
 from app.ingest.aircraft_tracking import AircraftTrackingProcessed_Table
 
+app = FastAPI(
+    title="Aircraft API",
+    description="API for consuming aircraft data",
+    version="1.0.0",
+)
 
-class AircraftSpeedAltitudeParams(BaseModel):
-    """Parameters for the aircraft speed and altitude by type API"""
-    category: Optional[str] = None
-    min_altitude: Optional[float] = None
-    max_altitude: Optional[float] = None
-    min_speed: Optional[float] = None
-    max_speed: Optional[float] = None
+# Keep this permissive to match the TS Express implementation (which enables CORS).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-class AircraftSpeedAltitudeResult(BaseModel):
-    """Result for the aircraft speed and altitude by type API"""
+class AircraftSpeedAltitudeByTypeRow(BaseModel):
     aircraft_category: str
     total_records: int
     avg_barometric_altitude: float
@@ -28,54 +41,78 @@ class AircraftSpeedAltitudeResult(BaseModel):
     unique_aircraft_count: int
 
 
-def aircraft_speed_altitude_by_type_handler(client: MooseClient, params: AircraftSpeedAltitudeParams):
-    """API that provides speed and altitude statistics for different aircraft types/categories"""
-    # Use the table object to get the table name and column names
-    source = AircraftTrackingProcessed_Table
-    
-    # Execute the query with robust optional parameter handling
-    query = f"""
-        SELECT 
-            {source.columns.category} as aircraft_category,
-            COUNT(*) as total_records,
-            AVG({source.columns.alt_baro}) as avg_barometric_altitude,
-            MIN({source.columns.alt_baro}) as min_barometric_altitude,
-            MAX({source.columns.alt_baro}) as max_barometric_altitude,
-            STDDEV_POP({source.columns.alt_baro}) as altitude_stddev,
-            AVG({source.columns.gs}) as avg_ground_speed,
-            MIN({source.columns.gs}) as min_ground_speed,
-            MAX({source.columns.gs}) as max_ground_speed,
-            STDDEV_POP({source.columns.gs}) as speed_stddev,
-            COUNT(DISTINCT {source.columns.hex}) as unique_aircraft_count
-        FROM {source.name} 
-        WHERE {source.columns.alt_baro} > 0 
-            AND {source.columns.gs} > 0 
-            AND {source.columns.category} != ''
-            -- Optional category filter
-            AND ('{params.category or ''}' = '' OR {source.columns.category} = '{params.category or ''}')
-            -- Optional altitude range filters
-            AND ({params.min_altitude or -999999} = -999999 OR {source.columns.alt_baro} >= {params.min_altitude or -999999})
-            AND ({params.max_altitude or 999999} = 999999 OR {source.columns.alt_baro} <= {params.max_altitude or 999999})
-            -- Optional speed range filters
-            AND ({params.min_speed or -999999} = -999999 OR {source.columns.gs} >= {params.min_speed or -999999})
-            AND ({params.max_speed or 999999} = 999999 OR {source.columns.gs} <= {params.max_speed or 999999})
-        GROUP BY {source.columns.category} 
-        ORDER BY total_records DESC
+@app.get("/aircraftSpeedAltitudeByType")
+async def aircraftSpeedAltitudeByType(
+    request: Request,
+    category: Optional[str] = Query(default=None),
+    minAltitude: Optional[float] = Query(default=None),
+    maxAltitude: Optional[float] = Query(default=None),
+    minSpeed: Optional[float] = Query(default=None),
+    maxSpeed: Optional[float] = Query(default=None),
+):
     """
-    
-    # Execute the query with parameters
-    result = client.query.execute(query, {
-        "category": params.category,
-        "min_altitude": params.min_altitude,
-        "max_altitude": params.max_altitude,
-        "min_speed": params.min_speed,
-        "max_speed": params.max_speed
-    })
-    return result
+    Provides speed and altitude statistics for different aircraft types/categories.
+    Uses barometric altitude (NOT geometric altitude) and ground speed.
+    """
+    try:
+        moose = get_moose_utils(request)
+        if not moose:
+            raise HTTPException(status_code=500, detail="MooseStack utilities not available")
+        
+        source = AircraftTrackingProcessed_Table
+        
+        query = f"""
+            SELECT 
+                {source.columns.category} as aircraft_category,
+                COUNT(*) as total_records,
+                AVG({source.columns.alt_baro}) as avg_barometric_altitude,
+                MIN({source.columns.alt_baro}) as min_barometric_altitude,
+                MAX({source.columns.alt_baro}) as max_barometric_altitude,
+                STDDEV_POP({source.columns.alt_baro}) as altitude_stddev,
+                AVG({source.columns.gs}) as avg_ground_speed,
+                MIN({source.columns.gs}) as min_ground_speed,
+                MAX({source.columns.gs}) as max_ground_speed,
+                STDDEV_POP({source.columns.gs}) as speed_stddev,
+                COUNT(DISTINCT {source.columns.hex}) as unique_aircraft_count
+            FROM {source.name} 
+            WHERE {source.columns.alt_baro} > 0 
+                AND {source.columns.gs} > 0 
+                AND {source.columns.category} != ''
+                -- Optional category filter
+                AND ('{category or ''}' = '' OR {source.columns.category} = '{category or ''}')
+                -- Optional altitude range filters
+                AND ({minAltitude or -999999} = -999999 OR {source.columns.alt_baro} >= {minAltitude or -999999})
+                AND ({maxAltitude or 999999} = 999999 OR {source.columns.alt_baro} <= {maxAltitude or 999999})
+                -- Optional speed range filters
+                AND ({minSpeed or -999999} = -999999 OR {source.columns.gs} >= {minSpeed or -999999})
+                AND ({maxSpeed or 999999} = 999999 OR {source.columns.gs} <= {maxSpeed or 999999})
+            GROUP BY {source.columns.category} 
+            ORDER BY total_records DESC
+        """
+
+        # Execute query and get results
+        result = moose.client.query.execute_raw(query, parameters={})
+
+        # Handle result - some implementations return a wrapper with .json() method
+        if hasattr(result, "json") and callable(getattr(result, "json")):
+            return result.json()
+
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("Error in aircraftSpeedAltitudeByType")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-# Create the API
-aircraft_speed_altitude_by_type = Api[AircraftSpeedAltitudeParams, AircraftSpeedAltitudeResult](
-    name="aircraftSpeedAltitudeByType",
-    query_function=aircraft_speed_altitude_by_type_handler
+# Register as MooseStack WebApp (FastAPI mounted into the project)
+aircraft_fastapi_app = WebApp(
+    "aircraft",
+    app,
+    WebAppConfig(
+        mount_path="/aircraft/api",
+        metadata=WebAppMetadata(description="API for consuming aircraft data"),
+    ),
 )
+
