@@ -7,7 +7,7 @@
     "dev": "moose-cli dev"
   },
   "dependencies": {
-    "@514labs/moose-lib": "^0.6.170",
+    "@514labs/moose-lib": "^0.6.297",
     "@anthropic-ai/sdk": "^0.68.0",
     "@modelcontextprotocol/sdk": "^1.20.2",
     "@types/cors": "^2.8.19",
@@ -19,7 +19,7 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
-    "@514labs/moose-cli": "^0.6.170",
+    "@514labs/moose-cli": "^0.6.297",
     "@types/express": "^5.0.5",
     "@types/node": "^20.12.12"
   },

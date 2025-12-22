@@ -16,7 +16,7 @@ import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
-import { WebApp, getMooseUtils, ApiUtil, Sql } from "@514labs/moose-lib";
+import { WebApp, getMooseUtils, MooseUtils, Sql } from "@514labs/moose-lib";
 
 // Create Express application
 const app = express();
@@ -27,7 +27,7 @@ app.use(express.json());
  * This is required for stateless mode where each request is fully independent.
  * The mooseUtils parameter provides access to ClickHouse client and SQL helpers.
  */
-const serverFactory = (mooseUtils: ApiUtil | null) => {
+const serverFactory = (mooseUtils: MooseUtils) => {
   const server = new McpServer({
     name: "moosestack-mcp-tools",
     version: "1.0.0",
@@ -40,7 +40,8 @@ const serverFactory = (mooseUtils: ApiUtil | null) => {
    * database through the MCP protocol. Results are automatically limited to a maximum
    * of 100 rows to prevent excessive data transfer.
    */
-  server.registerTool(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  server.registerTool<any, any>(
     "query_clickhouse",
     {
       title: "Query ClickHouse Database",
@@ -60,26 +61,13 @@ const serverFactory = (mooseUtils: ApiUtil | null) => {
       },
       outputSchema: {
         rows: z
-          .array(z.record(z.any()))
+          .array(z.record(z.string(), z.unknown()))
           .describe("Query results as array of row objects"),
         rowCount: z.number().describe("Number of rows returned"),
       },
     },
-    async ({ query, limit = 100 }) => {
+    async ({ query, limit = 100 }: { query: string; limit?: number }) => {
       try {
-        // Check if MooseStack utilities are available
-        if (!mooseUtils) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: "Error: MooseStack utilities not available",
-              },
-            ],
-            isError: true,
-          };
-        }
-
         const { client } = mooseUtils;
 
         // Enforce maximum limit of 100
@@ -125,7 +113,7 @@ const serverFactory = (mooseUtils: ApiUtil | null) => {
         return {
           content: [
             {
-              type: "text",
+              type: "text" as const,
               text: JSON.stringify(output, null, 2),
             },
           ],
@@ -137,7 +125,7 @@ const serverFactory = (mooseUtils: ApiUtil | null) => {
         return {
           content: [
             {
-              type: "text",
+              type: "text" as const,
               text: `Error executing query: ${errorMessage}`,
             },
           ],
@@ -166,11 +154,7 @@ app.all("/", async (req, res) => {
     console.log(`[MCP] Handling ${req.method} request (stateless mode)`);
 
     // Get MooseStack utilities (ClickHouse client and SQL helpers)
-    const mooseUtils = getMooseUtils(req);
-
-    if (!mooseUtils) {
-      throw new Error("MooseStack utilities not available");
-    }
+    const mooseUtils = await getMooseUtils();
 
     // Create a fresh transport and server for EVERY request (stateless)
     const transport = new StreamableHTTPServerTransport({
