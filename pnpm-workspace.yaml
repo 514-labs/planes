@@ -1,0 +1,4 @@
+packages:
+  - "moose"
+  - "frontend"
+  - "e2e-tests"

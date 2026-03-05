@@ -1,0 +1,26 @@
+{
+  "name": "@planes/workspace",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.26.0",
+  "scripts": {
+    "dev:moose": "pnpm --filter planes-moose dev",
+    "test:e2e": "pnpm --filter e2e-tests test:e2e"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@514labs/kafka-javascript",
+      "@swc/core",
+      "esbuild",
+      "protobufjs",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
+  "devDependencies": {
+    "@cfworker/json-schema": "^4.1.1",
+    "@types/node": "^24.11.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
+}

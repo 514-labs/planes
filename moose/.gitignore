@@ -9,3 +9,5 @@ dist
 coverage
 .ts-node
 .vscode
+
+.env.local*
