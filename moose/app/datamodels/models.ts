@@ -15,7 +15,7 @@ export interface AircraftTrackingData {
   flight: string;
 
   /** Aircraft registration pulled from database */
-  r1: string;
+  r: string;
 
   /** Aircraft ICAO type code pulled from database (as defined by ICAO DOC8643) */
   aircraft_type?: string;
