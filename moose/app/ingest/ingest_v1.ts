@@ -15,6 +15,6 @@ export const AircraftTrackingData_Table_v1 =
 export const AircraftTrackingProcessed_Table_v1 =
   new OlapTable<AircraftTrackingProcessed>("AircraftTrackingProcessedTable", {
     orderByFields: ["category", "hex", "timestamp"],
-    partitionBy: "toYYYYMM(timestamp)",
+    primaryKeyExpression: "(category, hex, timestamp)",
     version: "0.1",
   });
