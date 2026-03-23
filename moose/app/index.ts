@@ -3,3 +3,4 @@ export * from "./apis/aircraftSpeedAltitudeByType";
 export * from "./apis/mcp";
 export * from "./ingest/ingest";
 export * from "./ingest/ingest_v1";
+export * from "./queries/aircraftStats";
