@@ -28,7 +28,8 @@ export function createTestReporter(prefix: string): {
   const flush = async () => {
     const reportsDir = join(import.meta.dirname, "..", "reports");
     await mkdir(reportsDir, { recursive: true });
-    const filename = `${prefix}-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
+    const dbName = results.target.database;
+    const filename = `${prefix}-${dbName}-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
     await writeFile(
       join(reportsDir, filename),
       JSON.stringify(results, null, 2),

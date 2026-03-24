@@ -1,10 +1,5 @@
 /**
- * ClickHouse diagnostic helpers for benchmarking and profiling queries.
- *
- * Temporary standalone versions of specced QueryClient methods:
- *   client.query.explain(query)     → explain(client, query)
- *   client.query.profile(query)     → profileQuery / resolveProfiles
- *   client.table.storageStats(table)→ tableStats(client, table)
+ * ClickHouse diagnostic helpers for query comparison across databases.
  */
 
 import {
@@ -18,7 +13,7 @@ import {
 // Shared utilities
 // ---------------------------------------------------------------------------
 
-export function percentile(values: number[], p: number): number {
+function percentile(values: number[], p: number): number {
   if (values.length === 0) return 0;
   const sorted = [...values].sort((a, b) => a - b);
   const index = Math.min(
@@ -180,73 +175,6 @@ export async function profileBenchmark(
 // ---------------------------------------------------------------------------
 // Cluster diagnostics
 // ---------------------------------------------------------------------------
-
-export interface ClusterDiagnostics {
-  activeMerges: {
-    table: string;
-    elapsed: number;
-    progress: number;
-    numParts: number;
-    totalSizeBytes: number;
-  }[];
-  tableParts: {
-    table: string;
-    parts: number;
-    rows: number;
-  }[];
-}
-
-export async function clusterDiagnostics(
-  queryClient: QueryClient,
-): Promise<ClusterDiagnostics> {
-  const [mergeRows, partRows] = await Promise.all([
-    queryClient
-      .execute(
-        sql.raw(
-          `SELECT table, elapsed, progress, num_parts, total_size_bytes_compressed
-           FROM system.merges`,
-        ),
-      )
-      .then((r) =>
-        r.json() as Promise<{
-          table: string;
-          elapsed: string;
-          progress: string;
-          num_parts: string;
-          total_size_bytes_compressed: string;
-        }[]>,
-      ),
-    queryClient
-      .execute(
-        sql.raw(
-          `SELECT table, count() as parts, sum(rows) as rows
-           FROM system.parts
-           WHERE active = 1
-             AND database NOT IN ('system', 'INFORMATION_SCHEMA', 'information_schema')
-           GROUP BY table
-           ORDER BY parts DESC`,
-        ),
-      )
-      .then((r) =>
-        r.json() as Promise<{ table: string; parts: string; rows: string }[]>,
-      ),
-  ]);
-
-  return {
-    activeMerges: mergeRows.map((m) => ({
-      table: m.table,
-      elapsed: Number(m.elapsed),
-      progress: Number(m.progress),
-      numParts: Number(m.num_parts),
-      totalSizeBytes: Number(m.total_size_bytes_compressed),
-    })),
-    tableParts: partRows.map((p) => ({
-      table: p.table,
-      parts: Number(p.parts),
-      rows: Number(p.rows),
-    })),
-  };
-}
 
 // ---------------------------------------------------------------------------
 // Table stats

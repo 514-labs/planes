@@ -5,10 +5,8 @@ import { createTestReporter } from "../helpers/test-reporter";
 import {
   explain,
   profileBenchmark,
-  clusterDiagnostics,
   type ProfileResult,
 } from "../helpers/clickhouse-diagnostics";
-import { diagnoseConnectionSpike } from "../helpers/connection-timing";
 
 const { client } = await getMooseUtils();
 const { results, flush } = createTestReporter("benchmark-details");
@@ -152,62 +150,4 @@ describe("Moose query performance", () => {
     expect(errors).toBe(0);
   });
 
-  it("cluster diagnostics", async () => {
-    const state = await clusterDiagnostics(client.query);
-
-    results.tests["clusterState"] = state;
-
-    console.log(
-      `Active merges: ${state.activeMerges.length}, tables with parts: ${state.tableParts.length}`,
-    );
-    for (const t of state.tableParts.slice(0, 5)) {
-      console.log(`  ${t.table}: ${t.parts} parts, ${t.rows} rows`);
-    }
-  });
-
-  it("connection-level latency breakdown", async () => {
-    const host = process.env.MOOSE_CLICKHOUSE_CONFIG__HOST ?? "localhost";
-    const port = Number(process.env.MOOSE_CLICKHOUSE_CONFIG__HOST_PORT ?? "18123");
-    const ssl = process.env.MOOSE_CLICKHOUSE_CONFIG__USE_SSL === "true";
-
-    const querySql = toQueryPreview(standardQuery().toSql());
-
-    const result = await diagnoseConnectionSpike(
-      {
-        host,
-        port,
-        user: process.env.MOOSE_CLICKHOUSE_CONFIG__USER ?? "panda",
-        password: process.env.MOOSE_CLICKHOUSE_CONFIG__PASSWORD ?? "pandapass",
-        database: process.env.MOOSE_CLICKHOUSE_CONFIG__DB_NAME ?? "local",
-        query: querySql,
-        ssl,
-      },
-      8,
-    );
-
-    results.tests["connectionDiagnostics"] = {
-      spikeDetected: result.spikeDetected,
-      spikePhase: result.spikePhase,
-      fastest: result.fastest,
-      slowest: result.slowest,
-      allTimings: result.timings.map((t) => ({
-        totalMs: Math.round(t.totalMs),
-        dnsMs: Math.round(t.dnsMs),
-        tcpMs: Math.round(t.tcpMs),
-        tlsMs: Math.round(t.tlsMs),
-        firstByteMs: Math.round(t.firstByteMs),
-        statusCode: t.statusCode,
-      })),
-    };
-
-    if (result.spikeDetected) {
-      console.log(
-        `CONNECTION SPIKE: ${result.spikePhase} — slowest ${result.slowest.totalMs.toFixed(0)}ms vs fastest ${result.fastest.totalMs.toFixed(0)}ms`,
-      );
-    } else {
-      console.log(
-        `No connection spike. Range: ${result.fastest.totalMs.toFixed(0)}ms - ${result.slowest.totalMs.toFixed(0)}ms`,
-      );
-    }
-  });
 });

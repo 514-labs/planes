@@ -6,13 +6,9 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:preview": "dotenv -e .env.local.preview -- vitest run",
     "test:e2e": "vitest run tests/moose-api.e2e.test.ts",
-    "test:e2e:preview": "dotenv -e .env.local.preview -- vitest run tests/moose-api.e2e.test.ts",
-    "test:perf": "vitest run tests/moose-performance.e2e.test.ts",
-    "test:perf:preview": "dotenv -e .env.local.preview -- vitest run tests/moose-performance.e2e.test.ts",
-    "test:correctness": "vitest run tests/moose-correctness.e2e.test.ts",
-    "test:correctness:preview": "dotenv -e .env.local.preview -- vitest run tests/moose-correctness.e2e.test.ts"
+    "test:perf": "dotenv -e .env.remote -- vitest run tests/moose-performance.e2e.test.ts",
+    "test:correctness": "dotenv -e .env.remote -- vitest run tests/moose-correctness.e2e.test.ts"
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.435",
