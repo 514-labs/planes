@@ -4,16 +4,17 @@ import { resolve } from "node:path";
 export default defineConfig({
   resolve: {
     alias: {
+      // TODO: Update path to point at your Moose project's compiled output
       "planes-moose": resolve(__dirname, "../moose/dist/app"),
     },
   },
   test: {
     environment: "node",
-    include: ["tests/**/*.e2e.test.ts"],
+    include: ["tests/**/*.test.ts"],
     testTimeout: 120000,
     reporters: ["default", "json"],
     outputFile: {
-      json: "./reports/benchmark-results.json",
+      json: "./reports/test-results.json",
     },
   },
 });
