@@ -82,7 +82,7 @@ export interface ProfileResult {
  * Execute a query and return its query_id for later profile resolution.
  * Does NOT flush logs or read system.query_log — call resolveProfiles() after all runs.
  */
-export async function profileQuery(
+async function profileQuery(
   queryClient: QueryClient,
   query: Sql,
 ): Promise<string> {
@@ -95,7 +95,7 @@ export async function profileQuery(
  * Flush logs once and batch-resolve all query_ids from system.query_log.
  * Call this after all profileQuery() calls are complete.
  */
-export async function resolveProfiles(
+async function resolveProfiles(
   queryClient: QueryClient,
   queryIds: string[],
 ): Promise<ProfileResult[]> {
@@ -173,10 +173,6 @@ export async function profileBenchmark(
 }
 
 // ---------------------------------------------------------------------------
-// Cluster diagnostics
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
 // Table stats
 // ---------------------------------------------------------------------------
 
@@ -217,5 +213,51 @@ export async function tableStats(
     rows: Number(countRows[0]?.rows ?? 0),
     parts: Number(partsRows[0]?.parts ?? 0),
     diskSize: partsRows[0]?.disk_size ?? "unknown",
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Data parity checksum
+// ---------------------------------------------------------------------------
+
+export interface DataChecksum {
+  table: string;
+  rows: number;
+  checksum: string;
+  filter: string | null;
+}
+
+/**
+ * Compute a row-order-independent checksum of table data.
+ * Uses ClickHouse's idiomatic pattern: sum(cityHash64(tuple(*)))
+ *
+ * Compare checksums across databases to confirm identical source data
+ * before benchmarking — proves performance differences are from
+ * schema changes, not data differences.
+ */
+export async function dataChecksum(
+  queryClient: QueryClient,
+  table: string,
+  filter?: string,
+): Promise<DataChecksum> {
+  if (!TABLE_NAME_RE.test(table)) {
+    throw new Error(`Invalid table name: ${table}`);
+  }
+
+  const where = filter ? `WHERE ${filter}` : "";
+  const result = await queryClient.execute(
+    sql.raw(
+      `SELECT count() as rows, sum(cityHash64(tuple(*))) as checksum
+       FROM ${table} ${where}`,
+    ),
+  );
+  const rows = (await result.json()) as { rows: string; checksum: string }[];
+  const entry = rows[0];
+
+  return {
+    table,
+    rows: Number(entry?.rows ?? 0),
+    checksum: entry?.checksum ?? "0",
+    filter: filter ?? null,
   };
 }

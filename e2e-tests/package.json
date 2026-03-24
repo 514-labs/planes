@@ -8,7 +8,7 @@
     "test:watch": "vitest",
     "test:e2e": "vitest run tests/moose-api.e2e.test.ts",
     "test:perf": "dotenv -e .env.remote -- vitest run tests/moose-performance.e2e.test.ts",
-    "test:correctness": "dotenv -e .env.remote -- vitest run tests/moose-correctness.e2e.test.ts"
+    "compare": "tsx helpers/compare-reports.ts"
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.435",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0",
+    "tsx": "^4.21.0",
     "vitest": "^3.2.4"
   }
 }
