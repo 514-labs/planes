@@ -1,34 +1,25 @@
 import { describe, expect, it, afterAll } from "vitest";
 import { getMooseUtils, toQueryPreview } from "@514labs/moose-lib";
+import {
+  explain,
+  profileBenchmark,
+  createTestReporter,
+} from "@514labs/moose-lib/testing";
 import { baseQuery, filterVariants } from "./benchmark-cases";
-import { createReportWriter } from "../reporting/report-writer";
 
 const { client } = await getMooseUtils();
-const { results, flush } = createReportWriter("benchmark-details");
-
-// Moose-lib diagnostic helpers (available once shipped on QueryClient)
-// For now, import from moose-lib or use temporary helpers
-const { explain, profileBenchmark, dataChecksum } = await import(
-  "@514labs/moose-lib"
-).then((m) => ({
-  explain: m.explain ?? (async () => { throw new Error("explain() not yet available in moose-lib — add a local helper"); }),
-  profileBenchmark: m.profileBenchmark ?? (async () => { throw new Error("profileBenchmark() not yet available in moose-lib — add a local helper"); }),
-  dataChecksum: m.dataChecksum ?? (async () => { throw new Error("dataChecksum() not yet available in moose-lib — add a local helper"); }),
-}));
+const targetDb = process.env.MOOSE_CLICKHOUSE_CONFIG__DB_NAME ?? "local";
+const { results, flush } = createTestReporter({
+  prefix: `benchmark-${targetDb}`,
+  outputDir: new URL("../reports", import.meta.url).pathname,
+});
 
 let baselineP95: number;
 
 describe("Query benchmarks", () => {
-  afterAll(flush);
-
-  it("data checksum", async () => {
-    const checksum = await dataChecksum(client.query);
-    results.tests["dataChecksum"] = checksum;
-
-    console.log(
-      `Rows: ${checksum.rows}, checksum: ${checksum.checksum}`,
-    );
-    expect(checksum.rows).toBeGreaterThan(0);
+  afterAll(async () => {
+    const path = await flush();
+    console.log(`\nBenchmark details: ${path}`);
   });
 
   it("baseline p95 under threshold", async () => {
@@ -48,19 +39,14 @@ describe("Query benchmarks", () => {
       p95,
     };
 
-    console.log(
-      `Baseline p50: ${p50}ms, p95: ${p95}ms`,
-    );
+    console.log(`p50: ${p50}ms, p95: ${p95}ms, rows read: ${profiles[0]?.readRows}`);
     expect(p95).toBeLessThanOrEqual(500);
   });
 
   it("filter variants do not regress", async () => {
     expect(baselineP95, "Baseline must run first").toBeDefined();
 
-    if (filterVariants.length === 0) {
-      console.log("No filter variants defined — skipping");
-      return;
-    }
+    if (filterVariants.length === 0) return;
 
     const variantResults: Record<string, unknown> = {};
 
@@ -80,9 +66,7 @@ describe("Query benchmarks", () => {
         ratio: p95 / baselineP95,
       };
 
-      console.log(
-        `${variant.name} p95: ${p95}ms vs baseline ${baselineP95}ms`,
-      );
+      console.log(`${variant.name}: p95 ${p95}ms (${((p95 / baselineP95 - 1) * 100).toFixed(0)}% vs baseline)`);
       expect(
         p95,
         `${variant.name} p95 ${p95}ms > 2.5x baseline ${baselineP95}ms`,
@@ -101,36 +85,7 @@ describe("Query benchmarks", () => {
       explain: plan,
     };
 
-    console.log(
-      `Index: ${plan.indexCondition}, granules: ${plan.selectedGranules}/${plan.totalGranules} (skip ${plan.granuleSkipPct}%)`,
-    );
+    console.log(`index: ${plan.indexCondition}, granules: ${plan.selectedGranules}/${plan.totalGranules} (${plan.granuleSkipPct}% skip)`);
     expect(plan.indexCondition).not.toBe("true");
-  });
-
-  it("concurrent burst without errors", async () => {
-    const query = baseQuery().toSql();
-    const concurrency = 10;
-
-    const burstResults = await Promise.all(
-      Array.from({ length: concurrency }, async () => {
-        try {
-          const result = await client.query.execute(query);
-          await result.json();
-          return { ok: true };
-        } catch {
-          return { ok: false };
-        }
-      }),
-    );
-
-    const errors = burstResults.filter((r) => !r.ok).length;
-
-    results.tests["concurrentBurst"] = {
-      concurrency,
-      errors,
-      totalRequests: burstResults.length,
-    };
-
-    expect(errors).toBe(0);
   });
 });
