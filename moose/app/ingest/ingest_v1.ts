@@ -13,8 +13,7 @@ export const AircraftTrackingData_Table_v1 =
 
 //Derivative data model pipeline
 export const AircraftTrackingProcessed_Table_v1 =
-  new OlapTable<AircraftTrackingProcessed>("AircraftTrackingProcessedTable", {
+  new OlapTable<AircraftTrackingProcessed>("AircraftTrackingProcessedTable_0_1", {
     orderByFields: ["category", "hex", "timestamp"],
     primaryKeyExpression: "(category, hex, timestamp)",
-    version: "0.1",
   });

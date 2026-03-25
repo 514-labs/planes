@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "bench": "dotenv -e .env.remote -- vitest run tests/query-benchmarks.test.ts",
-    "report:compare": "tsx reporting/compare-benchmark-reports.ts"
+    "bench": "dotenv -e .env.remote -- vitest run tests/query-benchmarks.test.ts"
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.450",

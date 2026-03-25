@@ -1,3 +1,3 @@
-import { aircraftStatsModel } from "planes-moose";
+import { aircraftStatsModelV1 } from "planes-moose";
 
-export const benchmarkModel = aircraftStatsModel;
+export const benchmarkModel = aircraftStatsModelV1;

@@ -45,5 +45,17 @@ export const filterVariants: Array<{
   name: string;
   build: () => ReturnType<typeof baseQuery>;
 }> = [
-  // TODO: Add your filter variants here
+  { name: "category=A3", build: () => baseQuery().filter("category", "eq", "A3") },
+  { name: "altitude range", build: () => baseQuery().filter("altitude", "gte", 10000).filter("altitude", "lte", 30000) },
+  { name: "speed range", build: () => baseQuery().filter("speed", "gte", 200).filter("speed", "lte", 500) },
+  {
+    name: "combined",
+    build: () =>
+      baseQuery()
+        .filter("category", "eq", "A3")
+        .filter("altitude", "gte", 10000)
+        .filter("altitude", "lte", 30000)
+        .filter("speed", "gte", 200)
+        .filter("speed", "lte", 500),
+  },
 ];

@@ -5,7 +5,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // TODO: Update path to point at your Moose project's compiled output
-      "planes-moose": resolve(__dirname, "../moose/dist/app"),
+      "planes-moose": resolve(__dirname, "../moose/dist"),
     },
   },
   test: {
