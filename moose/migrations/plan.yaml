@@ -2,10 +2,11 @@
 
 created_at: 2026-03-26T04:52:40.164702Z
 operations:
-- DropTable:
+- RawSql:
     cluster_name: null
     database: null
-    table: AircraftTrackingProcessedTable
+    description: Rename old ProcessedTable to preserve data for backfill
+    sql: RENAME TABLE AircraftTrackingProcessedTable TO AircraftTrackingProcessedTable_old
 - CreateTable:
     table:
       columns:
@@ -425,6 +426,33 @@ operations:
         index_granularity_bytes: '10485760'
       table_settings_hash: 2a829df7aa4f8fc1b104ebeb310a3620e36ee055842b09814808045285ec62ee
       version: null
+- RawSql:
+    cluster_name: null
+    database: null
+    description: Backfill new ProcessedTable from renamed old table with LowCardinality casts
+    sql: >-
+      INSERT INTO AircraftTrackingProcessedTable
+      SELECT
+        zorderCoordinate, approach, autopilot, althold, lnav, tcas,
+        hex,
+        CAST(transponder_type, 'LowCardinality(String)'),
+        flight, r, aircraft_type, dbFlags, lat, lon,
+        alt_baro, alt_baro_is_ground, alt_geom, gs, track,
+        baro_rate, geom_rate,
+        CAST(squawk, 'LowCardinality(String)'),
+        CAST(emergency, 'LowCardinality(String)'),
+        CAST(category, 'LowCardinality(String)'),
+        nav_qnh, nav_altitude_mcp, nav_heading, nav_modes,
+        nic, rc, seen_pos, version, nic_baro, nac_p, nac_v,
+        sil,
+        CAST(sil_type, 'LowCardinality(String)'),
+        gva, sda, alert, spi, mlat, tisb, messages, seen, rssi, timestamp
+      FROM AircraftTrackingProcessedTable_old
+- RawSql:
+    cluster_name: null
+    database: null
+    description: Drop old renamed ProcessedTable after backfill
+    sql: DROP TABLE IF EXISTS AircraftTrackingProcessedTable_old
 - ModifyTableColumn:
     after_column:
       annotations:
