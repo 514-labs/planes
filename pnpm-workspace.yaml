@@ -1,4 +1,4 @@
 packages:
   - "moose"
   - "frontend"
-  - "query-benchmarks"
+  - "moose/query-benchmarks"
