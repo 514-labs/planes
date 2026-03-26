@@ -1,4 +1,4 @@
-import { Key } from "@514labs/moose-lib";
+import { Key, LowCardinality } from "@514labs/moose-lib";
 
 /**
  * Raw aircraft tracking data from ADS-B Exchange API.
@@ -9,7 +9,7 @@ export interface AircraftTrackingData {
   hex: Key<string>;
 
   /** Type of underlying messages / best source of current data. Values: adsb_icao, adsb_icao_nt, adsr_icao, tisb_icao, adsc, mlat, other, mode_s, adsb_other, adsr_other, tisb_other, tisb_trackfile */
-  transponder_type: string;
+  transponder_type: string & LowCardinality;
 
   /** Callsign, the flight name or aircraft registration as 8 chars */
   flight: string;
@@ -51,13 +51,13 @@ export interface AircraftTrackingData {
   geom_rate?: number;
 
   /** Mode A code (Squawk), encoded as 4 octal digits */
-  squawk: string;
+  squawk: string & LowCardinality;
 
   /** ADS-B emergency/priority status, superset of 7x00 squawks. Values: none, general, lifeguard, minfuel, nordo, unlawful, downed, reserved */
-  emergency: string;
+  emergency: string & LowCardinality;
 
   /** Emitter category to identify particular aircraft or vehicle classes (values A0-D7) */
-  category: string;
+  category: string & LowCardinality;
 
   /** Altimeter setting (QFE or QNH/QNE), hPa */
   nav_qnh?: number;
@@ -96,7 +96,7 @@ export interface AircraftTrackingData {
   sil: number;
 
   /** Source Integrity Level type: unknown, perhour, persample */
-  sil_type: string;
+  sil_type: string & LowCardinality;
 
   /** Geometric Vertical Accuracy */
   gva: number;

@@ -16,5 +16,6 @@
       }
     ],
     "strictNullChecks": true
-  }
+  },
+  "exclude": ["query-benchmarks"]
 }

@@ -15,7 +15,13 @@ export const AircraftTrackingData_IngestAPI = new IngestApi<AircraftTrackingData
 });
 
 //Derivative data model pipeline
-export const AircraftTrackingProcessed_Table = new OlapTable<AircraftTrackingProcessed>("AircraftTrackingProcessedTable");
+export const AircraftTrackingProcessed_Table = new OlapTable<AircraftTrackingProcessed>(
+  "AircraftTrackingProcessedTable",
+  {
+    orderByFields: ["category", "hex", "timestamp"],
+    primaryKeyExpression: "(category, hex, timestamp)",
+  },
+);
 
 export const AircraftTrackingProcessed_Stream = new Stream<AircraftTrackingProcessed>("AircraftTrackingProcessedStream", {
   destination: AircraftTrackingProcessed_Table
