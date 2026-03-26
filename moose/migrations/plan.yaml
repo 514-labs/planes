@@ -3,10 +3,9 @@
 created_at: 2026-03-26T04:52:40.164702Z
 operations:
 - RawSql:
-    cluster_name: null
-    database: null
     description: Rename old ProcessedTable to preserve data for backfill
-    sql: RENAME TABLE AircraftTrackingProcessedTable TO AircraftTrackingProcessedTable_old
+    sql:
+    - RENAME TABLE AircraftTrackingProcessedTable TO AircraftTrackingProcessedTable_old
 - CreateTable:
     table:
       columns:
@@ -427,10 +426,9 @@ operations:
       table_settings_hash: 2a829df7aa4f8fc1b104ebeb310a3620e36ee055842b09814808045285ec62ee
       version: null
 - RawSql:
-    cluster_name: null
-    database: null
     description: Backfill new ProcessedTable from renamed old table with LowCardinality casts
-    sql: >-
+    sql:
+    - >-
       INSERT INTO AircraftTrackingProcessedTable
       SELECT
         zorderCoordinate, approach, autopilot, althold, lnav, tcas,
@@ -449,10 +447,9 @@ operations:
         gva, sda, alert, spi, mlat, tisb, messages, seen, rssi, timestamp
       FROM AircraftTrackingProcessedTable_old
 - RawSql:
-    cluster_name: null
-    database: null
     description: Drop old renamed ProcessedTable after backfill
-    sql: DROP TABLE IF EXISTS AircraftTrackingProcessedTable_old
+    sql:
+    - DROP TABLE IF EXISTS AircraftTrackingProcessedTable_old
 - ModifyTableColumn:
     after_column:
       annotations:
