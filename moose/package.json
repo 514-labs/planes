@@ -4,10 +4,11 @@
   "scripts": {
     "moose": "moose-cli",
     "build": "moose-cli build --docker",
-    "dev": "moose-cli dev"
+    "dev": "moose-cli dev",
+    "update:moose": "pnpm update @514labs/moose-lib@latest @514labs/moose-cli@latest"
   },
   "dependencies": {
-    "@514labs/moose-lib": "^0.6.297",
+    "@514labs/moose-lib": "^0.6.493",
     "@anthropic-ai/sdk": "^0.68.0",
     "@modelcontextprotocol/sdk": "^1.20.2",
     "@types/cors": "^2.8.19",
@@ -19,9 +20,14 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
-    "@514labs/moose-cli": "^0.6.297",
+    "@514labs/moose-cli": "^0.6.493",
     "@types/express": "^5.0.5",
     "@types/node": "^20.12.12"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@514labs/kafka-javascript",
+      "@confluentinc/kafka-javascript"
+    ]
+  }
 }
