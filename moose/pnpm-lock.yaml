@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@514labs/moose-lib':
-        specifier: ^0.6.297
-        version: 0.6.297(@swc/core@1.14.0)(@types/node@20.19.24)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))
+        specifier: 0.6.489-ci-2-g0137ccc6a
+        version: 0.6.489-ci-2-g0137ccc6a(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))
       '@anthropic-ai/sdk':
         specifier: ^0.68.0
         version: 0.68.0(zod@3.25.76)
@@ -40,8 +40,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@514labs/moose-cli':
-        specifier: ^0.6.297
-        version: 0.6.297
+        specifier: 0.6.489-ci-2-g0137ccc6a
+        version: 0.6.489-ci-2-g0137ccc6a
       '@types/express':
         specifier: ^5.0.5
         version: 5.0.5
@@ -55,32 +55,37 @@ packages:
     resolution: {integrity: sha512-wE9zNdx39tcXOlMN4RGQEkuwGPUIJ+4xVQ4WRMFOjVN9Ixndat89jTUIBQSlCOc4B3RrRcn4VTz13pJo9tESMg==}
     engines: {node: '>=18.0.0'}
 
-  '@514labs/moose-cli-darwin-arm64@0.6.297':
-    resolution: {integrity: sha512-5Y4YoYw7EeccTn6Z9nGNvNEdpnNsiCE377CtqoDpSOQmelEllM/SvprB8khsqCis5XCe5iicXxC17UzGDjKLYg==}
+  '@514labs/moose-cli-darwin-arm64@0.6.489-ci-2-g0137ccc6a':
+    resolution: {integrity: sha512-+2fFKS1O1hwqDap34jExeT0+G18oTYzL5LF1Ms9EPLTi9eOXWDpcRxSdUGmAUxWkrZYxRSOzwTuQGtT8K1yCBQ==}
     cpu: [arm64]
     os: [darwin]
 
-  '@514labs/moose-cli-linux-arm64@0.6.297':
-    resolution: {integrity: sha512-nVGEWFfFnadanZgcg/vMdGn8XeiRxZFm27hHEiSEzwVs8PFUEWGq8lz02GlR/OnGkxyzmRwhfYds76cTFzOLOg==}
+  '@514labs/moose-cli-linux-arm64@0.6.489-ci-2-g0137ccc6a':
+    resolution: {integrity: sha512-W6vY43uj5WzPeo5H+8q+F8YJricWbPJhWtXTm0N2+pR5+9Wsf6+wqhSO7az6jXGur4Y4pI/4bWSMFUvtDDbvuQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@514labs/moose-cli-linux-x64@0.6.297':
-    resolution: {integrity: sha512-HKXMBDQMc5Dv6qs5pPftKAkYSJOKZq+Ne2gz1KvQQi96AwHxg33LBRjkHMYdg9NeLgWLaq1F7SL58JXbwkvx/Q==}
+  '@514labs/moose-cli-linux-x64@0.6.489-ci-2-g0137ccc6a':
+    resolution: {integrity: sha512-ca2UOf3Ej0x+5oU/3Jr4PIaXhLSk7lX2g7I04Uz3p53Y7itkqsy5a4SjDu7KK7z28yrqMx6U/Gk1cHEbRyfZkA==}
     cpu: [x64]
     os: [linux]
 
-  '@514labs/moose-cli@0.6.297':
-    resolution: {integrity: sha512-Rv48nDl24QpiL6oG/oujeTWOUMnbsEBt6F/CAUYi8Zl7TUucYz4RpJZfli3KYF8gg094aAVFcWuChC0srP6lsA==}
+  '@514labs/moose-cli@0.6.489-ci-2-g0137ccc6a':
+    resolution: {integrity: sha512-DES2fr0IlYMLVkagZJWmF1pYJEGyGhdzek9z+2qRqz8E9VDxPJuDa30LGgjiG+7G7o2QJ4W3Qb4udzE+hd5aXA==}
     hasBin: true
 
-  '@514labs/moose-lib@0.6.297':
-    resolution: {integrity: sha512-Zi8ay7CbZg+848lCB+V6CaZp2iUIYWn+nSNA+VewVcZI2U1U494saR4AQg/xT6rr7aEa9wWqyd8mUm9FSKH/ZA==}
+  '@514labs/moose-lib@0.6.489-ci-2-g0137ccc6a':
+    resolution: {integrity: sha512-A6R1wkF21XbY2EZTwZ3l8cFfZl4rEmZLLWQlc8ouPNgI3UrUgpHwET/jvC7q+xjsQDk2h7WAxPEWBcpaJyspyA==}
+    engines: {node: '>=20 <25'}
     hasBin: true
     peerDependencies:
+      '@modelcontextprotocol/sdk': ^1.0.0
       ts-patch: ^3.3.0
       tsconfig-paths: ^4.2.0
       typia: ^9.6.1
+    peerDependenciesMeta:
+      '@modelcontextprotocol/sdk':
+        optional: true
 
   '@anthropic-ai/sdk@0.68.0':
     resolution: {integrity: sha512-SMYAmbbiprG8k1EjEPMTwaTqssDT7Ae+jxcR5kWXiqTlbwMR2AthXtscEVWOHkRfyAV5+y3PFYTJRNa3OJWIEw==}
@@ -107,10 +112,6 @@ packages:
   '@clickhouse/client@1.8.1':
     resolution: {integrity: sha512-Ec0pCdwftIPD7hCxhOukHS0Zxr2tDc5mNAHBqkT3c0c6GO2WQdZkME9+EcfGcoF7+foUp82F5a0bPfSDDjfWmg==}
     engines: {node: '>=16'}
-
-  '@cspotcode/source-map-support@0.8.1':
-    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
-    engines: {node: '>=12'}
 
   '@grpc/grpc-js@1.14.0':
     resolution: {integrity: sha512-N8Jx6PaYzcTRNzirReJCtADVoq4z7+1KQ4E70jTg/koQiMoUSN1kbNjPOqpPbhMFhfU1/l7ixspPl8dNY+FoUg==}
@@ -145,9 +146,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@jridgewell/trace-mapping@0.3.9':
-    resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
@@ -376,18 +374,6 @@ packages:
     resolution: {integrity: sha512-Wbuvk3rK6F6hVQbXDHB5JuYZVEUWV6eSs1HoB9J15/N+1dOFLVykyBd8lw7Fn5dxNEI1F1nmS4VCJVV47AlZhQ==}
     engines: {node: '>= 18.0.0'}
 
-  '@tsconfig/node10@1.0.11':
-    resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
-
-  '@tsconfig/node12@1.0.11':
-    resolution: {integrity: sha512-cqefuRsh12pWyGsIoBKJA9luFu3mRxCA+ORZvA4ktLSzIuCUtWVxGIuXigEwO5/ywWFMZ2QEGKWvkZG1zDMTag==}
-
-  '@tsconfig/node14@1.0.3':
-    resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
-
-  '@tsconfig/node16@1.0.4':
-    resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
-
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==}
 
@@ -507,10 +493,6 @@ packages:
     peerDependencies:
       acorn: ^8.14.0
 
-  acorn-walk@8.3.4:
-    resolution: {integrity: sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g==}
-    engines: {node: '>=0.4.0'}
-
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
@@ -566,9 +548,6 @@ packages:
     resolution: {integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==}
     engines: {node: '>=10'}
     deprecated: This package is no longer supported.
-
-  arg@4.1.3:
-    resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
 
   arg@5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
@@ -737,9 +716,6 @@ packages:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
     engines: {node: '>= 0.10'}
 
-  create-require@1.1.1:
-    resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
-
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -773,10 +749,6 @@ packages:
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
-
-  diff@4.0.2:
-    resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
-    engines: {node: '>=0.3.1'}
 
   drange@1.1.1:
     resolution: {integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==}
@@ -970,7 +942,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-prefix@4.0.0:
     resolution: {integrity: sha512-w0Uf9Y9/nyHinEk5vMJKRie+wa4kR5hmDbEhGGds/kG1PwGLLHKRoNMeJOyCQjjBkANlnScqgzcFwGHgmgLkVA==}
@@ -1120,9 +1092,6 @@ packages:
   make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
-
-  make-error@1.3.6:
-    resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
   mappersmith@2.46.1:
     resolution: {integrity: sha512-Ac9UGnHmf5rNtbOxe/SmEwtFPmb2/ronEwQbWcS6uA6nXxGPyr+dhPpTmzCTmZosdc8reFdeSqOy+khEkCFogA==}
@@ -1505,6 +1474,7 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   terser-webpack-plugin@5.3.14:
     resolution: {integrity: sha512-vkZjpUjb6OMS7dhV+tILUW6BhpDR7P2L/aQSAv+Uwk+m8KATX9EccViHTJR2qDtACKPIYndLGCyl3FMo+r2LMw==}
@@ -1554,20 +1524,6 @@ packages:
 
   ts-algebra@2.0.0:
     resolution: {integrity: sha512-FPAhNPFMrkwz76P7cdjdmiShwMynZYN6SgOujD1urY4oNm80Ou9oMdmbR45LotcKOXoy7wSmHkRFE6Mxbrhefw==}
-
-  ts-node@10.9.2:
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
 
   ts-patch@3.3.0:
     resolution: {integrity: sha512-zAOzDnd5qsfEnjd9IGy1IRuvA7ygyyxxdxesbhMdutt8AHFjD8Vw8hU2rMF89HX1BKRWFYqKHrO8Q6lw0NeUZg==}
@@ -1624,9 +1580,6 @@ packages:
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
-
-  v8-compile-cache-lib@3.0.1:
-    resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -1698,10 +1651,6 @@ packages:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
 
-  yn@3.1.1:
-    resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
-    engines: {node: '>=6'}
-
   zod-to-json-schema@3.24.6:
     resolution: {integrity: sha512-h/z3PKvcTcTetyjl1fkj79MHNEjm+HpD6NXheWjzOekY7kV+lwDYnHw+ivHkijnCSMz1yJaWBD9vu/Fcmk+vEg==}
     peerDependencies:
@@ -1721,22 +1670,22 @@ snapshots:
       - encoding
       - supports-color
 
-  '@514labs/moose-cli-darwin-arm64@0.6.297':
+  '@514labs/moose-cli-darwin-arm64@0.6.489-ci-2-g0137ccc6a':
     optional: true
 
-  '@514labs/moose-cli-linux-arm64@0.6.297':
+  '@514labs/moose-cli-linux-arm64@0.6.489-ci-2-g0137ccc6a':
     optional: true
 
-  '@514labs/moose-cli-linux-x64@0.6.297':
+  '@514labs/moose-cli-linux-x64@0.6.489-ci-2-g0137ccc6a':
     optional: true
 
-  '@514labs/moose-cli@0.6.297':
+  '@514labs/moose-cli@0.6.489-ci-2-g0137ccc6a':
     optionalDependencies:
-      '@514labs/moose-cli-darwin-arm64': 0.6.297
-      '@514labs/moose-cli-linux-arm64': 0.6.297
-      '@514labs/moose-cli-linux-x64': 0.6.297
+      '@514labs/moose-cli-darwin-arm64': 0.6.489-ci-2-g0137ccc6a
+      '@514labs/moose-cli-linux-arm64': 0.6.489-ci-2-g0137ccc6a
+      '@514labs/moose-cli-linux-x64': 0.6.489-ci-2-g0137ccc6a
 
-  '@514labs/moose-lib@0.6.297(@swc/core@1.14.0)(@types/node@20.19.24)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))':
+  '@514labs/moose-lib@0.6.489-ci-2-g0137ccc6a(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))':
     dependencies:
       '@514labs/kafka-javascript': 1.7.1-patch
       '@clickhouse/client': 1.8.1
@@ -1753,16 +1702,15 @@ snapshots:
       jose: 5.9.2
       redis: 4.7.1
       toml: 3.0.0
-      ts-node: 10.9.2(@swc/core@1.14.0)(@types/node@20.19.24)(typescript@5.9.3)
       ts-patch: 3.3.0
       tsconfig-paths: 4.2.0
       typescript: 5.9.3
       typia: 9.7.2(@types/node@20.19.24)(typescript@5.9.3)
+      zod: 3.25.76
+    optionalDependencies:
+      '@modelcontextprotocol/sdk': 1.21.0
     transitivePeerDependencies:
-      - '@swc/core'
       - '@swc/helpers'
-      - '@swc/wasm'
-      - '@types/node'
       - encoding
       - esbuild
       - supports-color
@@ -1788,10 +1736,6 @@ snapshots:
   '@clickhouse/client@1.8.1':
     dependencies:
       '@clickhouse/client-common': 1.8.1
-
-  '@cspotcode/source-map-support@0.8.1':
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.9
 
   '@grpc/grpc-js@1.14.0':
     dependencies:
@@ -1827,11 +1771,6 @@ snapshots:
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
   '@jridgewell/trace-mapping@0.3.31':
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@jridgewell/trace-mapping@0.3.9':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -2099,14 +2038,6 @@ snapshots:
       '@temporalio/proto': 1.13.1
       nexus-rpc: 0.0.1
 
-  '@tsconfig/node10@1.0.11': {}
-
-  '@tsconfig/node12@1.0.11': {}
-
-  '@tsconfig/node14@1.0.3': {}
-
-  '@tsconfig/node16@1.0.4': {}
-
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
@@ -2269,10 +2200,6 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
-  acorn-walk@8.3.4:
-    dependencies:
-      acorn: 8.15.0
-
   acorn@8.15.0: {}
 
   agent-base@6.0.2:
@@ -2324,8 +2251,6 @@ snapshots:
     dependencies:
       delegates: 1.0.0
       readable-stream: 3.6.2
-
-  arg@4.1.3: {}
 
   arg@5.0.2: {}
 
@@ -2483,8 +2408,6 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  create-require@1.1.1: {}
-
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -2508,8 +2431,6 @@ snapshots:
   depd@2.0.0: {}
 
   detect-libc@2.1.2: {}
-
-  diff@4.0.2: {}
 
   drange@1.1.1: {}
 
@@ -2853,8 +2774,6 @@ snapshots:
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
-
-  make-error@1.3.6: {}
 
   mappersmith@2.46.1: {}
 
@@ -3275,26 +3194,6 @@ snapshots:
 
   ts-algebra@2.0.0: {}
 
-  ts-node@10.9.2(@swc/core@1.14.0)(@types/node@20.19.24)(typescript@5.9.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 20.19.24
-      acorn: 8.15.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    optionalDependencies:
-      '@swc/core': 1.14.0
-
   ts-patch@3.3.0:
     dependencies:
       chalk: 4.1.2
@@ -3356,8 +3255,6 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   uuid@9.0.1: {}
-
-  v8-compile-cache-lib@3.0.1: {}
 
   vary@1.1.2: {}
 
@@ -3452,8 +3349,6 @@ snapshots:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
-
-  yn@3.1.1: {}
 
   zod-to-json-schema@3.24.6(zod@3.25.76):
     dependencies:
