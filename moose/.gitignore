@@ -5,7 +5,10 @@
 
 # Node
 node_modules
+package-lock.json
 dist
 coverage
 .ts-node
 .vscode
+
+.env*

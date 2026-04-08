@@ -1,5 +1,5 @@
 import { Task, Workflow } from "@514labs/moose-lib";
-import { AircraftTrackingData } from "datamodels/models";
+import { AircraftTrackingData } from "../datamodels/models";
 
 /**
  * Interface for API response from adsb.lol
