@@ -1,7 +1,7 @@
 {
   "api_endpoints": {},
   "consumption_api_web_server": {},
-  "default_database": "514-demos-planes-chore-upg-587b2",
+  "default_database": "514-demos-planes-main-59be4",
   "dmv1_views": {},
   "function_processes": {},
   "materialized_views": {},
@@ -9,7 +9,7 @@
   "select_row_policies": {},
   "sql_resources": {},
   "tables": {
-    "514-demos-planes-chore-upg-587b2_AircraftTrackingDataTable": {
+    "514-demos-planes-main-59be4_AircraftTrackingDataTable": {
       "columns": [
         {
           "annotations": [],
@@ -197,6 +197,16 @@
           "data_type": "Float64",
           "default": null,
           "name": "nav_qnh",
+          "primary_key": false,
+          "required": false,
+          "unique": false
+        },
+        {
+          "annotations": [],
+          "comment": "Selected altitude from the Mode Control Panel / Flight Control Unit (MCP/FCU), feet",
+          "data_type": "Float64",
+          "default": null,
+          "name": "nav_altitude_mcp",
           "primary_key": false,
           "required": false,
           "unique": false
@@ -419,18 +429,9 @@
           "primary_key": false,
           "required": true,
           "unique": false
-        },
-        {
-          "annotations": [],
-          "data_type": "Boolean",
-          "default": null,
-          "name": "blarg_2",
-          "primary_key": false,
-          "required": false,
-          "unique": false
         }
       ],
-      "database": "514-demos-planes-chore-upg-587b2",
+      "database": "514-demos-planes-main-59be4",
       "engine": "MergeTree",
       "engine_params_hash": "d5aa53dbc771b396681e589a76e142d602f44981211d28085e2af418e519fe8a",
       "indexes": [],
@@ -452,7 +453,7 @@
       },
       "version": null
     },
-    "514-demos-planes-chore-upg-587b2_AircraftTrackingProcessedTable": {
+    "514-demos-planes-main-59be4_AircraftTrackingProcessedTable": {
       "columns": [
         {
           "annotations": [],
@@ -706,6 +707,16 @@
         },
         {
           "annotations": [],
+          "comment": "Selected altitude from the Mode Control Panel / Flight Control Unit (MCP/FCU), feet",
+          "data_type": "Float64",
+          "default": null,
+          "name": "nav_altitude_mcp",
+          "primary_key": false,
+          "required": false,
+          "unique": false
+        },
+        {
+          "annotations": [],
           "comment": "Selected heading (True or Magnetic is not defined in DO-260B, mostly Magnetic)",
           "data_type": "Float64",
           "default": null,
@@ -922,18 +933,9 @@
           "primary_key": false,
           "required": true,
           "unique": false
-        },
-        {
-          "annotations": [],
-          "data_type": "Boolean",
-          "default": null,
-          "name": "blarg_2",
-          "primary_key": false,
-          "required": false,
-          "unique": false
         }
       ],
-      "database": "514-demos-planes-chore-upg-587b2",
+      "database": "514-demos-planes-main-59be4",
       "engine": "MergeTree",
       "engine_params_hash": "d5aa53dbc771b396681e589a76e142d602f44981211d28085e2af418e519fe8a",
       "indexes": [],
