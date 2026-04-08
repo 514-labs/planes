@@ -1,0 +1,166 @@
+# yaml-language-server: $schema=../.moose/migration_schema.json
+
+created_at: 2026-04-08T18:45:51.122278Z
+operations:
+- CreateTable:
+    table:
+      columns:
+      - annotations: []
+        data_type: String
+        default: null
+        name: category
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: sum
+        data_type: Float64
+        default: null
+        name: total_records
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: sum
+        data_type: Float64
+        default: null
+        name: sum_alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: min
+        data_type: Float64
+        default: null
+        name: min_alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: max
+        data_type: Float64
+        default: null
+        name: max_alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: sum
+        data_type: Float64
+        default: null
+        name: sum_gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: min
+        data_type: Float64
+        default: null
+        name: min_gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - simpleAggregationFunction
+          - argumentType: Float64
+            functionName: max
+        data_type: Float64
+        default: null
+        name: max_gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - aggregationFunction
+          - argumentTypes:
+            - Float64
+            functionName: avg
+        data_type: Float64
+        default: null
+        name: avg_alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - aggregationFunction
+          - argumentTypes:
+            - Float64
+            functionName: stddevPop
+        data_type: Float64
+        default: null
+        name: stddev_alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - aggregationFunction
+          - argumentTypes:
+            - Float64
+            functionName: avg
+        data_type: Float64
+        default: null
+        name: avg_gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - aggregationFunction
+          - argumentTypes:
+            - Float64
+            functionName: stddevPop
+        data_type: Float64
+        default: null
+        name: stddev_gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations:
+        - - aggregationFunction
+          - argumentTypes:
+            - String
+            functionName: uniq
+        data_type: Float64
+        default: null
+        name: unique_aircraft
+        primary_key: false
+        required: true
+        unique: false
+      engine: AggregatingMergeTree
+      engine_params_hash: 126cecc49f73a6d7a2a44b67c950bd459167d50113743f8f4b1b75b8f2417ebb
+      indexes: []
+      life_cycle: FULLY_MANAGED
+      metadata:
+        description: null
+        source:
+          file: dist/app/ingest/aircraft_stats_mv.js
+      name: AircraftStatsByCategoryTable
+      order_by:
+      - category
+      projections: []
+      source_primitive:
+        name: AircraftStatsByCategoryTable
+        primitive_type: DataModel
+      table_settings:
+        enable_mixed_granularity_parts: '1'
+        index_granularity: '8192'
+        index_granularity_bytes: '10485760'
+      table_settings_hash: 2a829df7aa4f8fc1b104ebeb310a3620e36ee055842b09814808045285ec62ee
+      version: null
+- CreateMaterializedView:
+    database: null
+    name: AircraftStatsByCategoryMV
+    select_sql: SELECT category AS category, COUNT() AS total_records, SUM(alt_baro) AS sum_alt_baro, MIN(alt_baro) AS min_alt_baro, MAX(alt_baro) AS max_alt_baro, SUM(gs) AS sum_gs, MIN(gs) AS min_gs, MAX(gs) AS max_gs, avgState(alt_baro) AS avg_alt_baro, stddevPopState(alt_baro) AS stddev_alt_baro, avgState(gs) AS avg_gs, stddevPopState(gs) AS stddev_gs, uniqState(hex) AS unique_aircraft FROM AircraftTrackingProcessedTable WHERE (alt_baro > 0) AND (gs > 0) AND (category <> '') GROUP BY category
+    target_database: null
+    target_table: AircraftStatsByCategoryTable
