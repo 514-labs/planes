@@ -1,4 +1,368 @@
 # yaml-language-server: $schema=../.moose/migration_schema.json
 
-created_at: 2026-04-08T00:03:51.911046Z
-operations: []
+created_at: 2026-04-09T16:33:21.007160Z
+operations:
+- CreateTable:
+    table:
+      columns:
+      - annotations: []
+        comment: The 24-bit ICAO identifier of the aircraft, as 6 hex digits. May start with '~' for non-ICAO addresses (e.g. from TIS-B).
+        data_type: String
+        default: null
+        name: hex
+        primary_key: true
+        required: true
+        unique: false
+      - annotations: []
+        comment: 'Type of underlying messages / best source of current data. Values: adsb_icao, adsb_icao_nt, adsr_icao, tisb_icao, adsc, mlat, other, mode_s, adsb_other, adsr_other, tisb_other, tisb_trackfile'
+        data_type: String
+        default: null
+        name: transponder_type
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Callsign, the flight name or aircraft registration as 8 chars
+        data_type: String
+        default: null
+        name: flight
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Aircraft registration pulled from database
+        data_type: String
+        default: null
+        name: r
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Aircraft ICAO type code pulled from database (as defined by ICAO DOC8643)
+        data_type: String
+        default: null
+        name: aircraft_type
+        primary_key: false
+        required: false
+        unique: false
+      - annotations: []
+        comment: 'Bitfield for database flags: military = dbFlags & 1, interesting = dbFlags & 2, PIA = dbFlags & 4, LADD = dbFlags & 8'
+        data_type: Float64
+        default: null
+        name: dbFlags
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Aircraft latitude position in decimal degrees
+        data_type: Float64
+        default: null
+        name: lat
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Aircraft longitude position in decimal degrees
+        data_type: Float64
+        default: null
+        name: lon
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Aircraft barometric altitude in feet. When alt_baro_is_ground is true, aircraft is on ground.
+        data_type: Float64
+        default: null
+        name: alt_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Indicates if aircraft is on ground (alt_baro would be "ground" in raw API)
+        data_type: Boolean
+        default: null
+        name: alt_baro_is_ground
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Geometric (GNSS / INS) altitude in feet referenced to the WGS84 ellipsoid
+        data_type: Float64
+        default: null
+        name: alt_geom
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Ground speed in knots
+        data_type: Float64
+        default: null
+        name: gs
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: True track over ground in degrees (0-359)
+        data_type: Float64
+        default: null
+        name: track
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Rate of change of barometric altitude, feet/minute
+        data_type: Float64
+        default: null
+        name: baro_rate
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Rate of change of geometric (GNSS / INS) altitude, feet/minute
+        data_type: Float64
+        default: null
+        name: geom_rate
+        primary_key: false
+        required: false
+        unique: false
+      - annotations: []
+        comment: Mode A code (Squawk), encoded as 4 octal digits
+        data_type: String
+        default: null
+        name: squawk
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: 'ADS-B emergency/priority status, superset of 7x00 squawks. Values: none, general, lifeguard, minfuel, nordo, unlawful, downed, reserved'
+        data_type: String
+        default: null
+        name: emergency
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Emitter category to identify particular aircraft or vehicle classes (values A0-D7)
+        data_type: String
+        default: null
+        name: category
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Altimeter setting (QFE or QNH/QNE), hPa
+        data_type: Float64
+        default: null
+        name: nav_qnh
+        primary_key: false
+        required: false
+        unique: false
+      - annotations: []
+        comment: Selected altitude from the Mode Control Panel / Flight Control Unit (MCP/FCU), feet
+        data_type: Float64
+        default: null
+        name: nav_altitude_mcp
+        primary_key: false
+        required: false
+        unique: false
+      - annotations: []
+        comment: Selected heading (True or Magnetic is not defined in DO-260B, mostly Magnetic)
+        data_type: Float64
+        default: null
+        name: nav_heading
+        primary_key: false
+        required: false
+        unique: false
+      - annotations: []
+        comment: 'Set of engaged automation modes: ''autopilot'', ''vnav'', ''althold'', ''approach'', ''lnav'', ''tcas'''
+        data_type:
+          elementNullable: false
+          elementType: String
+        default: null
+        name: nav_modes
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Navigation Integrity Category - measure of position accuracy
+        data_type: Float64
+        default: null
+        name: nic
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Radius of Containment in meters; measure of position integrity derived from NIC & supplementary bits
+        data_type: Float64
+        default: null
+        name: rc
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: How long ago (in seconds before "now") the position was last updated
+        data_type: Float64
+        default: null
+        name: seen_pos
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: 'ADS-B Version Number: 0, 1, 2 (3-7 are reserved)'
+        data_type: Float64
+        default: null
+        name: version
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Navigation Integrity Category for Barometric Altitude
+        data_type: Float64
+        default: null
+        name: nic_baro
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Navigation Accuracy for Position
+        data_type: Float64
+        default: null
+        name: nac_p
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Navigation Accuracy for Velocity
+        data_type: Float64
+        default: null
+        name: nac_v
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Source Integrity Level
+        data_type: Float64
+        default: null
+        name: sil
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: 'Source Integrity Level type: unknown, perhour, persample'
+        data_type: String
+        default: null
+        name: sil_type
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Geometric Vertical Accuracy
+        data_type: Float64
+        default: null
+        name: gva
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: System Design Assurance
+        data_type: Float64
+        default: null
+        name: sda
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Flight status alert bit
+        data_type: Float64
+        default: null
+        name: alert
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Flight status special position identification bit
+        data_type: Float64
+        default: null
+        name: spi
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: List of fields derived from MLAT data
+        data_type:
+          elementNullable: false
+          elementType: String
+        default: null
+        name: mlat
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: List of fields derived from TIS-B data
+        data_type:
+          elementNullable: false
+          elementType: String
+        default: null
+        name: tisb
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Total number of Mode S messages received from this aircraft
+        data_type: Float64
+        default: null
+        name: messages
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: How long ago (in seconds before "now") a message was last received from this aircraft
+        data_type: Float64
+        default: null
+        name: seen
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Recent average RSSI (signal power) in dBFS; always negative
+        data_type: Float64
+        default: null
+        name: rssi
+        primary_key: false
+        required: true
+        unique: false
+      - annotations: []
+        comment: Timestamp when this data was captured
+        data_type: DateTime
+        default: null
+        name: timestamp
+        primary_key: false
+        required: true
+        unique: false
+      engine: MergeTree
+      engine_params_hash: d5aa53dbc771b396681e589a76e142d602f44981211d28085e2af418e519fe8a
+      indexes: []
+      life_cycle: FULLY_MANAGED
+      metadata:
+        description: null
+        source:
+          file: dist/app/index.js
+      name: t_0_0
+      order_by:
+      - hex
+      projections: []
+      source_primitive:
+        name: t
+        primitive_type: DataModel
+      table_settings:
+        enable_mixed_granularity_parts: '1'
+        index_granularity: '8192'
+        index_granularity_bytes: '10485760'
+      table_settings_hash: 2a829df7aa4f8fc1b104ebeb310a3620e36ee055842b09814808045285ec62ee
+      version: '0.0'
+- CreateMaterializedView:
+    database: null
+    name: AircraftStatsByCategoryMV
+    select_sql: SELECT category AS category, COUNT() AS total_records, SUM(alt_baro) AS sum_alt_baro, MIN(alt_baro) AS min_alt_baro, MAX(alt_baro) AS max_alt_baro, SUM(gs) AS sum_gs, MIN(gs) AS min_gs, MAX(gs) AS max_gs, avgState(alt_baro) AS avg_alt_baro, stddevPopState(alt_baro) AS stddev_alt_baro, avgState(gs) AS avg_gs, stddevPopState(gs) AS stddev_gs, uniqState(hex) AS unique_aircraft FROM AircraftTrackingProcessedTable WHERE (alt_baro > 0) AND (gs > 0) AND (category <> '') GROUP BY category
+    target_database: null
+    target_table: AircraftStatsByCategoryTable
