@@ -5,7 +5,10 @@
     "moose": "moose-cli",
     "build": "moose-cli build --docker",
     "dev": "moose-cli dev",
-    "update:moose": "pnpm update @514labs/moose-lib@latest @514labs/moose-cli@latest"
+    "update:moose": "pnpm update @514labs/moose-lib@latest @514labs/moose-cli@latest",
+    "clean": "docker compose -f .moose/docker-compose.yml down -v 2>/dev/null; docker volume prune -f",
+    "env:preview": "514 env list --platform --dotenv > .env.local",
+    "env:main": "514 env list --platform --dotenv --branch main > .env.local"
   },
   "dependencies": {
     "@514labs/moose-lib": "^0.6.496",
