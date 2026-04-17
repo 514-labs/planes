@@ -128,7 +128,6 @@ export interface AircraftTrackingData {
   /** Timestamp when this data was captured */
   timestamp: Date;
   aircraft_type_code?: string;
-  alert_flag?: boolean;
 }
 
 /**
