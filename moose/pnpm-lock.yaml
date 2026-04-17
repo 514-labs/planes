@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@514labs/moose-lib':
-        specifier: ^0.6.509
-        version: 0.6.509(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(tslib@2.8.1)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))
+        specifier: ^0.6.518
+        version: 0.6.518(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(tslib@2.8.1)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))
       '@anthropic-ai/sdk':
         specifier: ^0.68.0
         version: 0.68.0(zod@3.25.76)
@@ -40,8 +40,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@514labs/moose-cli':
-        specifier: ^0.6.509
-        version: 0.6.509
+        specifier: ^0.6.518
+        version: 0.6.518
       '@types/express':
         specifier: ^5.0.5
         version: 5.0.5
@@ -55,27 +55,27 @@ packages:
     resolution: {integrity: sha512-wE9zNdx39tcXOlMN4RGQEkuwGPUIJ+4xVQ4WRMFOjVN9Ixndat89jTUIBQSlCOc4B3RrRcn4VTz13pJo9tESMg==}
     engines: {node: '>=18.0.0'}
 
-  '@514labs/moose-cli-darwin-arm64@0.6.509':
-    resolution: {integrity: sha512-+f/rnvq/dji+kq44nDhRqI1eMwErvyT15e9Dxm72UPfgLyf+oV4kUNX1G5kzXVz93M9kP3vhZHCQTJljkdfcog==}
+  '@514labs/moose-cli-darwin-arm64@0.6.518':
+    resolution: {integrity: sha512-2rrultqSkga0dJPo+XBj8SX0sT9HtnfIy43QAjgOErbYSnX435R8AIGVdPxdv9lyd3t8kg+hom2059c9JEQcjA==}
     cpu: [arm64]
     os: [darwin]
 
-  '@514labs/moose-cli-linux-arm64@0.6.509':
-    resolution: {integrity: sha512-npGuuds7pleVRZwuiwDohw8c34cXEDgOoRBihJk9asDQGmlkvaegwCi9g2VtMdIZ7XqWp+Vmp/cw/6ZFGfu/Pw==}
+  '@514labs/moose-cli-linux-arm64@0.6.518':
+    resolution: {integrity: sha512-jGX/vYa+boWSYrdPn/mtMKNPff2UHHPbFdQKNngpJhyX6lIyW0X+YxGQVE71/tzIDWt32GRcDdzGQVMZiHWoeg==}
     cpu: [arm64]
     os: [linux]
 
-  '@514labs/moose-cli-linux-x64@0.6.509':
-    resolution: {integrity: sha512-P2DRr2Zm41rsjVKXk6atAUnKh3/CjMSqhNnYoPMZOnBJVziGPFeYa76JoY5nnBOBXdlyudDRP7MjFsMgvF+Lzg==}
+  '@514labs/moose-cli-linux-x64@0.6.518':
+    resolution: {integrity: sha512-AX7zUlmZXxv/5+aqdyC8fOBREMYkAg9HVeeYxmfk0vQLQvcQAVstgNIkbKU7t1FCIbAYujung+nefmXjm5X/7w==}
     cpu: [x64]
     os: [linux]
 
-  '@514labs/moose-cli@0.6.509':
-    resolution: {integrity: sha512-2MziZ46cloGt52P9UzaI643J9WWYtFnuNuoc+pEmeQkG9eYAGu1qiIXQpTwm9dKHV+JmozC85H3p0fy8F5hMfA==}
+  '@514labs/moose-cli@0.6.518':
+    resolution: {integrity: sha512-+gMOBw9F/UG+zryGpUvds6LId2eThkQWgwjisKZWNkokvXhN0VFhI4Ne+e8Zxv4WO0D1QJjF4OUdCAgYOllzfw==}
     hasBin: true
 
-  '@514labs/moose-lib@0.6.509':
-    resolution: {integrity: sha512-lLHm9HcIWCgOyiQghwRyt5mdTRVjrAKPH2+Tn86IlpaMfjR287sMAQ2XVbHpnCAM+/BYmi5YDAgBnu/Zx0ow/A==}
+  '@514labs/moose-lib@0.6.518':
+    resolution: {integrity: sha512-5NUfJpgHHJYLxavUdU1kPU8U63tvl+YJcyeIk9g9ITcHS0zAy2y5g2fNhhVqccLD1H3naqmgXayoemw2hvxfkw==}
     engines: {node: '>=20 <25'}
     hasBin: true
     peerDependencies:
@@ -1772,22 +1772,22 @@ snapshots:
       - encoding
       - supports-color
 
-  '@514labs/moose-cli-darwin-arm64@0.6.509':
+  '@514labs/moose-cli-darwin-arm64@0.6.518':
     optional: true
 
-  '@514labs/moose-cli-linux-arm64@0.6.509':
+  '@514labs/moose-cli-linux-arm64@0.6.518':
     optional: true
 
-  '@514labs/moose-cli-linux-x64@0.6.509':
+  '@514labs/moose-cli-linux-x64@0.6.518':
     optional: true
 
-  '@514labs/moose-cli@0.6.509':
+  '@514labs/moose-cli@0.6.518':
     optionalDependencies:
-      '@514labs/moose-cli-darwin-arm64': 0.6.509
-      '@514labs/moose-cli-linux-arm64': 0.6.509
-      '@514labs/moose-cli-linux-x64': 0.6.509
+      '@514labs/moose-cli-darwin-arm64': 0.6.518
+      '@514labs/moose-cli-linux-arm64': 0.6.518
+      '@514labs/moose-cli-linux-x64': 0.6.518
 
-  '@514labs/moose-lib@0.6.509(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(tslib@2.8.1)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))':
+  '@514labs/moose-lib@0.6.518(@modelcontextprotocol/sdk@1.21.0)(ts-patch@3.3.0)(tsconfig-paths@4.2.0)(tslib@2.8.1)(typia@9.7.2(@types/node@20.19.24)(typescript@5.9.3))':
     dependencies:
       '@514labs/kafka-javascript': 1.7.1-patch
       '@clickhouse/client': 1.8.1
