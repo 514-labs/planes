@@ -1,0 +1,49 @@
+id: 20260417_033106_454_migration
+description: migration
+parent_state_hash: d96ce560af841c6c3a7620a6242edc03859b9bd70240a805f344a5e1868167c8
+deltas:
+- type: AddTableColumn
+  table_id: 514-demos-planes-new-branc-12acb_AircraftTrackingDataTable
+  column:
+    name: aircraft_type_code
+    data_type: String
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: timestamp
+- type: AddTableColumn
+  table_id: 514-demos-planes-new-branc-12acb_AircraftTrackingDataTable
+  column:
+    name: alert_flag
+    data_type: Boolean
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: aircraft_type_code
+- type: AddTableColumn
+  table_id: 514-demos-planes-new-branc-12acb_AircraftTrackingProcessedTable
+  column:
+    name: aircraft_type_code
+    data_type: String
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: timestamp
+- type: AddTableColumn
+  table_id: 514-demos-planes-new-branc-12acb_AircraftTrackingProcessedTable
+  column:
+    name: alert_flag
+    data_type: Boolean
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: aircraft_type_code
+created_at: 2026-04-17T03:31:06.454503Z
