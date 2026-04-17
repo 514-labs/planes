@@ -20,13 +20,14 @@ export function useDebounce<T extends (...args: any[]) => any>(
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+
       timeoutRef.current = setTimeout(() => {
         func(...args);
       }, delay);
     },
     [func, delay]
   );
-
+  
   return debouncedFunction;
 }
 
