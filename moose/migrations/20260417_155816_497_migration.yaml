@@ -1,0 +1,11 @@
+id: 20260417_155816_497_migration
+description: migration
+parent_state_hash: 81d1f12cdbad18bef7b66393ae91d904f04df1eb233c69c56f9264f0c680d70e
+deltas:
+- type: DropTableColumn
+  table_id: 514-demos-planes-yet-anoth-82f04_AircraftTrackingProcessedTable
+  column_name: something_else
+- type: DropTableColumn
+  table_id: 514-demos-planes-yet-anoth-82f04_AircraftTrackingDataTable
+  column_name: something_else
+created_at: 2026-04-17T15:58:16.497246Z
