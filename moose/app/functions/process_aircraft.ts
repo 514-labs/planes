@@ -13,6 +13,7 @@ function calculateZOrder(lat: number, lon: number): number {
   for (let i = 0; i < 20; i++) {
     result |= ((latInt & (1 << i)) << i) | ((lonInt & (1 << i)) << (i + 1));
   }
+  
   return result;
 }
 
