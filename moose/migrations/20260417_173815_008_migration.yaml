@@ -1,0 +1,27 @@
+id: 20260417_173815_008_migration
+description: migration
+parent_state_hash: a530bbba4239a3764105a6e82ea847d71e859b0431ba42418349603f22f57ca2
+deltas:
+- type: AddTableColumn
+  table_id: 514-demos-planes-final-bra-f68e3_AircraftTrackingProcessedTable
+  column:
+    name: something_else
+    data_type: String
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: timestamp
+- type: AddTableColumn
+  table_id: 514-demos-planes-final-bra-f68e3_AircraftTrackingDataTable
+  column:
+    name: something_else
+    data_type: String
+    required: false
+    unique: false
+    primary_key: false
+    default: null
+    annotations: []
+  after_column: timestamp
+created_at: 2026-04-17T17:38:15.008202Z

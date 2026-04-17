@@ -128,6 +128,8 @@ export interface AircraftTrackingData {
   /** Timestamp when this data was captured */
   timestamp: Date;
 
+  something_else?: string;
+
 
 }
 
