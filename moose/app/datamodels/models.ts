@@ -126,7 +126,7 @@ export interface AircraftTrackingData {
   rssi: number;
 
   /** Timestamp when this data was captured */
-
+  timestamp: Date;
 }
 
 /**
