@@ -96,12 +96,20 @@ const chartConfig = {
   },
 };
 
+interface AverageSpeedData {
+  average_speed: number;
+  total_records: string;
+  min_speed: number;
+  max_speed: number;
+}
+
 export function AircraftDashboard() {
   const [data, setData] = useState<AircraftData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterParams>({});
   const [showFilters, setShowFilters] = useState(false);
+  const [avgSpeedData, setAvgSpeedData] = useState<AverageSpeedData | null>(null);
 
   const fetchData = async (filterParams: FilterParams = {}) => {
     try {
@@ -133,8 +141,32 @@ export function AircraftDashboard() {
     }
   };
 
+  const fetchAverageSpeed = async () => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const response = await fetch(`${baseUrl}/aircraft/api/averageSpeed`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      // ClickHouse returns an array, get the first item
+      if (Array.isArray(result) && result.length > 0) {
+        setAvgSpeedData(result[0]);
+      } else if (result && typeof result === 'object') {
+        // Handle case where it might be a single object
+        setAvgSpeedData(result);
+      }
+    } catch (err) {
+      console.error("Error fetching average speed:", err);
+      // Don't set error state, just log it so the dashboard still works
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchAverageSpeed();
   }, []);
 
   const handleFilterChange = (key: keyof FilterParams, value: string | number | undefined) => {
@@ -153,7 +185,8 @@ export function AircraftDashboard() {
   const totalAircraft = data.reduce((sum, item) => sum + parseInt(item.unique_aircraft_count), 0);
   const totalRecords = data.reduce((sum, item) => sum + parseInt(item.total_records), 0);
   const avgAltitude = data.reduce((sum, item) => sum + item.avg_barometric_altitude * parseInt(item.total_records), 0) / totalRecords;
-  const avgSpeed = data.reduce((sum, item) => sum + item.avg_ground_speed * parseInt(item.total_records), 0) / totalRecords;
+  // Use average speed from API endpoint exclusively
+  const avgSpeed = avgSpeedData?.average_speed ?? 0;
 
   // Sort data alphabetically by aircraft category for bar charts
   const sortedData = [...data].sort((a, b) => a.aircraft_category.localeCompare(b.aircraft_category));
